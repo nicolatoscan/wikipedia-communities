@@ -1,4 +1,5 @@
 # %% imports
+from random import seed
 from typing import Counter
 import networkx as nx
 import networkx.algorithms.community as nx_comm
@@ -7,6 +8,11 @@ import networkx.algorithms.components as nx_comp
 import networkx.algorithms.cluster as nx_cluster
 from tqdm import tqdm
 import matplotlib.pyplot as plt
+import pandas as pd
+from multiprocessing import Pool
+import numpy as np
+import json
+cores = 12
 
 # %% graph
 g = nx.Graph()
@@ -30,98 +36,129 @@ with open('dataset/wikitalk.txt', 'r') as f:
     del edges
 
 
-# %% usernames
-users = {}
+print('Getting usernames...')
+usernames = {}
 idToUsername = {}
 with open('dataset/usernames.txt', 'r') as f:
     for line in tqdm(f):
         id, username = line.strip('\n').split(' ')
-        users[username] = int(id)
+        usernames[username] = int(id)
         idToUsername[int(id)] = username
 
+print('Adding computed users info ... ')
+with open('dataset/users.json', 'r') as f:
+    users = json.load(f)
+    for id in tqdm(users):
+        count, fr, to = users[id]
+        iid = int(id)
+        g.nodes[iid]['count'] = count
+        g.nodes[iid]['from'] = fr
+        g.nodes[iid]['to'] = to
+        g.nodes[iid]['total'] = to - fr
+        g.nodes[iid]['freq'] = (to - fr) / count
 
-# %% add props
+print('Adding props...')
 genderMap = { 'female': 1, 'male': 0, 'unknown': -1 }
 with open('dataset/userinfo.tsv', 'r') as f:
     for line in tqdm(f):
         data = line.strip('\n').split('\t')
         if len(data) == 6:
             id, name, gender, editcount, firstedit, roles = line.strip('\n').split('\t')
-            if name in users:
-                id = users[name]
+            if name in usernames:
+                id = usernames[name]
                 g.nodes[id]['id'] = id
                 g.nodes[id]['name'] = name
                 g.nodes[id]['gender'] = genderMap[gender]
                 g.nodes[id]['roles'] = roles.split(',')
 
+print('Fix missing...')
 for id in tqdm(g.nodes):
     if 'id' not in g.nodes[id]:
         g.nodes[id]['id'] = -1
         g.nodes[id]['name'] = idToUsername[id]
         g.nodes[id]['gender'] = -1
         g.nodes[id]['roles'] = [ '*' ]
+    if 'count' not in g.nodes[id]:
+        g.nodes[id]['count'] = 0
+        g.nodes[id]['from'] = -1
+        g.nodes[id]['to'] = -1
+        g.nodes[id]['total'] = 0
+        g.nodes[id]['freq'] = 0
 
-
-# %% basic stats
-nrFema = sum([ 1 for n in g.nodes(data=True) if n[1]['gender'] ==  1 ])
-nrMale = sum([ 1 for n in g.nodes(data=True) if n[1]['gender'] ==  0 ])
-nrUnkn = sum([ 1 for n in g.nodes(data=True) if n[1]['gender'] == -1 ])
-
-# %%
-fig, (ax1, ax2) = plt.subplots(1, 2)
-fig.suptitle('Users gender distribution')
-ax1.pie([ nrUnkn, nrMale + nrFema ],    labels=['Unknown', 'Known'],    colors=['tab:gray', 'tab:green'], autopct='%1.1f%%')
-ax2.pie([ nrFema, nrMale ],             labels=['Female', 'Male'],      colors=['tab:orange', 'tab:blue'], autopct='%1.1f%%')
-plt.show()
-
-# %%
-# communities = nx_comm.louvain_communities(g)
-# parts = nx_comm.louvain_partitions(g)
-# %% coverage
-female = [ n[0] for n in g.nodes(data=True) if n[1]['gender'] ==  1 ]
-male = [ n[0] for n in g.nodes(data=True) if n[1]['gender'] ==  0 ]
-
-
-# %%
-nx_comm.coverage(g, [ female, male, set(g.nodes) - set(female) - set(male) ])
-# %%
-nx_comm.coverage(g, [ female, set(g.nodes) - set(female) ])
-# %%
-nx_comm.coverage(g, [ male, set(g.nodes) - set(male) ])
-# %%
-nx_sw.sigma(g)
-# %%
-nx_sw.omega(g)
-
-# %%
-nx_comm.greedy_modularity_communities(g)
-# %%
-nx_comp.is_weakly_connected(g)
-# %%
-weak = list(nx_comp.weakly_connected_components(g))
-strong = list(nx_comp.strongly_connected_components(g))
-# %%
+# %% count roles
 roles = Counter()
 for n in g.nodes(data=True):
     roles.update(n[1]['roles'])
-# %%
-sysop = [ n[0] for n in g.nodes(data=True) if 'sysop' in n[1]['roles'] ]
-bots = [ n[0] for n in g.nodes(data=True) if 'bot' in n[1]['roles'] ]
+df = pd.DataFrame.from_dict(roles, orient='index').reset_index()
+print(df)
+
+# %% different graphs indexing
+gIndex = {
+    'All': 0,
+    'Autoconfirmed': 1,
+    'ExtendedConfirmed': 2,
+    'Sysop': 3,
+    'Male': 4,
+    'Female': 5,
+}
+ii = list(gIndex.keys())
+
+# %% groups
+def getRoleGraph(g, role: str | int, isGender: bool) -> nx.Graph:
+    if isGender:
+        subG = g.subgraph([ n[0] for n in g.nodes(data=True) if role == n[1]['gender'] ])
+    else:
+        subG = g.subgraph([ n[0] for n in g.nodes(data=True) if role in n[1]['roles'] ])
+
+    comp = list(nx_comp.connected_components(subG))
+    comp10 = [ c for c in comp if len(c) > 10 ]
+    print(f'Nr comp {role}: {len(comp10)}')
+    return subG.subgraph(comp10[0])
+
+
+gAll = getRoleGraph(g, '*', False)
+gAC = getRoleGraph(g, 'autoconfirmed', False)
+gACX = getRoleGraph(g, 'extendedconfirmed', False)
+gSYS = getRoleGraph(g, 'sysop', False)
+
+gM = getRoleGraph(g, genderMap['male'], True)
+gF = getRoleGraph(g, genderMap['female'], True)
+
+subG = [ gAll, gAC, gACX, gSYS, gM, gF ]
+
+dfNandE = pd.DataFrame(
+    columns=['Nodes', 'Edges'], index=ii,
+    data=[ [len(gg.nodes()), len(gg.edges())] for gg in tqdm(subG) ],
+)
+print(dfNandE)
+
+# %% comm detection
+# pool = Pool(processes=cores)
+# comms = pool.imap_unordered(nx_comm.louvain_communities, [gAC, gACX, gSYS, gM, gF])
+comms = [ nx_comm.louvain_communities(gg, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+[ comm, commAC, commACX, commSYS, commM, commF ] = comms
+comms10 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
+comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
 
 # %%
-nx_cluster.triangles(g, 0)
-# %%
-aG = g.subgraph(sysop)
-aGComp = list(nx_comp.connected_components(aG))
-aGConnected = g.subgraph([c for c in aGComp if len(c) > 1][0])
-# %%
-pos = nx.spring_layout(aG, k=0.1)
-plt.rcParams.update({'figure.figsize': (50, 30)})
-nx.draw_networkx(
-    aG,
-    pos=pos,
-    node_size=1,
-    edge_color="#990000",
-    alpha=0.05,
-    with_labels=False)
+def commsInfo(ccc):
+    res = pd.DataFrame(
+        columns=['Total', 'Nr comms', 'Median', 'Avg size', 'std'], index=ii,
+        data=[ [ 
+            int(np.sum([ len(c) for c in cc ])),
+            len(cc),
+            int(np.median([ len(c) for c in cc ])),
+            int(np.average([ len(c) for c in cc ])),
+            int(np.std([ len(c) for c in cc ])),
+        ] for cc in tqdm(ccc) ],
+    )
+    print(res)
+print('All')
+commsInfo(comms)
+print('Less than 5 removed')
+commsInfo(comms5)
+print('Less than 10 removed')
+commsInfo(comms10)
+# %% removing comms with less than 10 nodes
+
 # %%
