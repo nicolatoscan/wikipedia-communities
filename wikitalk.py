@@ -136,6 +136,7 @@ print(dfNandE)
 # pool = Pool(processes=cores)
 # comms = pool.imap_unordered(nx_comm.louvain_communities, [gAC, gACX, gSYS, gM, gF])
 comms = [ nx_comm.louvain_communities(gg, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+# commsR5 = [ nx_comm.louvain_communities(gg, resolution=0.5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
 [ comm, commAC, commACX, commSYS, commM, commF ] = comms
 comms10 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
 comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
@@ -143,22 +144,48 @@ comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
 # %%
 def commsInfo(ccc):
     res = pd.DataFrame(
-        columns=['Total', 'Nr comms', 'Median', 'Avg size', 'std'], index=ii,
+        columns=['Total', 'Nr comms', 'Median', 'Avg size', 'std',
+            'Modularity',
+            # 'Coverage', 'Part quality'
+        ], index=ii,
         data=[ [ 
             int(np.sum([ len(c) for c in cc ])),
             len(cc),
             int(np.median([ len(c) for c in cc ])),
             int(np.average([ len(c) for c in cc ])),
             int(np.std([ len(c) for c in cc ])),
-        ] for cc in tqdm(ccc) ],
+            nx_comm.modularity(gg, cc),
+            # nx_comm.coverage(gg, cc),
+            # nx_comm.partition_quality(gg, cc)
+        ] for cc, gg in tqdm(list(zip(ccc, subG))) ],
     )
     print(res)
 print('All')
 commsInfo(comms)
-print('Less than 5 removed')
-commsInfo(comms5)
-print('Less than 10 removed')
-commsInfo(comms10)
-# %% removing comms with less than 10 nodes
+# print('Less than 5 removed')
+# commsInfo(comms5)
+# print('Less than 10 removed')
+# commsInfo(comms10)
+# print('Comms R5')
+# commsInfo(commsR5)
+# %%
+# M and F in each commmunities
 
+res = []
+for c in commACX:
+    subG = g.subgraph(c)
+    nrFema = sum([ 1 for n in subG.nodes(data=True) if n[1]['gender'] ==  1 ])
+    nrMale = sum([ 1 for n in subG.nodes(data=True) if n[1]['gender'] ==  0 ])
+    nrUnkn = sum([ 1 for n in subG.nodes(data=True) if n[1]['gender'] == -1 ])
+    nrAll = nrFema + nrMale + nrUnkn
+    res.append([ nrFema / nrAll, nrMale / nrAll, (nrFema + nrMale) / nrAll])
+# %%
+stuff = pd.DataFrame(res)
+print(stuff)
+# %%
+plt.rcParams["figure.figsize"] = (3,40)
+plt.pcolor(stuff)
+plt.yticks(np.arange(0.5, len(stuff.index), 1), stuff.index)
+plt.xticks(np.arange(0.5, len(stuff.columns), 1), stuff.columns)
+plt.show()
 # %%
