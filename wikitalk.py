@@ -12,43 +12,16 @@ import pandas as pd
 from multiprocessing import Pool
 import numpy as np
 import json
+from IPython.display import display
+import math
 cores = 12
 
 # %% graph
 g = nx.Graph()
 # g = nx.DiGraph()
 # g = nx.MultiDiGraph()
-with open('dataset/wikitalk.txt', 'r') as f:
-    print('Importing data...')
-    data =  [ list(map(int, line.strip().split(' '))) for line in tqdm(list(f)) ]
 
-    print('Adding nodes ...')
-    nodes = set([item for sublist in data for item in sublist[0:2]])
-    g.add_nodes_from(nodes)
-
-    print('Adding edges...')
-    edges = {}
-    for info in tqdm(data):
-        if (info[0], info[1]) not in edges:
-            edges[(info[0], info[1])] = {
-                'weight': 1,
-                'first': info[2],
-                'last': info[2],
-            }
-        else:
-            edges[(info[0], info[1])]['weight'] += 1
-            edges[(info[0], info[1])]['last'] = max(edges[(info[0], info[1])]['last'], info[2])
-            edges[(info[0], info[1])]['first'] = min(edges[(info[0], info[1])]['first'], info[2])
-    for e in tqdm(edges):
-        g.add_edge(e[0], e[1], **edges[e])
-
-    print('Done!')
-    del data
-    del nodes
-    del edges
-
-
-print('Getting usernames...')
+print('Mapping id to usernams...')
 usernames = {}
 idToUsername = {}
 with open('dataset/usernames.txt', 'r') as f:
@@ -57,56 +30,91 @@ with open('dataset/usernames.txt', 'r') as f:
         usernames[username] = int(id)
         idToUsername[int(id)] = username
 
-print('Adding computed users info ... ')
-with open('dataset/users.json', 'r') as f:
-    users = json.load(f)
-    for id in tqdm(users):
-        count, fr, to = users[id]
-        iid = int(id)
-        g.nodes[iid]['count'] = count
-        g.nodes[iid]['from'] = fr
-        g.nodes[iid]['to'] = to
-        g.nodes[iid]['total'] = to - fr
-        g.nodes[iid]['freq'] = (to - fr) / count
+userinfo = {}
+emptyUserinfo = {
+    'id': -1, 'name': '', 'gender': -1, 'roles': ['*'],
+    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0,
+}
 
-print('Adding props...')
+print("Getting API users information")
 genderMap = { 'female': 1, 'male': 0, 'unknown': -1 }
 with open('dataset/userinfo.tsv', 'r') as f:
     for line in tqdm(f):
         data = line.strip('\n').split('\t')
         if len(data) == 6:
-            id, name, gender, editcount, firstedit, roles = line.strip('\n').split('\t')
+            wikiid, name, gender, editcount, firstedit, roles = line.strip('\n').split('\t')
             if name in usernames:
                 id = usernames[name]
-                g.nodes[id]['id'] = id
-                g.nodes[id]['name'] = name
-                g.nodes[id]['gender'] = genderMap[gender]
-                g.nodes[id]['roles'] = roles.split(',')
+                userinfo[id] = {
+                    'id': wikiid,
+                    'name': name,
+                    'gender': genderMap[gender],
+                    'roles': roles.split(','),
+                    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0,
+                }
 
-print('Fix missing...')
-for id in tqdm(g.nodes):
-    if 'id' not in g.nodes[id]:
-        g.nodes[id]['id'] = -1
-        g.nodes[id]['name'] = idToUsername[id]
-        g.nodes[id]['gender'] = -1
-        g.nodes[id]['roles'] = [ '*' ]
-    if 'count' not in g.nodes[id]:
-        g.nodes[id]['count'] = 0
-        g.nodes[id]['from'] = -1
-        g.nodes[id]['to'] = -1
-        g.nodes[id]['total'] = 0
-        g.nodes[id]['freq'] = 0
+print("Getting calculated users information")
+with open('dataset/users.json', 'r') as f:
+    users = json.load(f)
+    for id in tqdm(users):
+        count, fr, to = users[id]
+        iid = int(id)
+        if iid not in userinfo:
+            userinfo[iid] = {'id': -1, 'name': id, 'gender': -1, 'roles': ['*'] }
+        userinfo[iid]['count'] = count
+        userinfo[iid]['from'] = fr
+        userinfo[iid]['to'] = to
+        userinfo[iid]['total'] = to - fr
+        userinfo[iid]['freq'] = (to - fr) / count
+
+
+with open('dataset/wikitalk.txt', 'r') as f:
+    print('Importing data...')
+    data =  [ list(map(int, line.strip().split(' '))) for line in tqdm(list(f)) ]
+
+    print('Adding nodes ...')
+    nodes = set([item for sublist in data for item in sublist[0:2]])
+    for n in tqdm(nodes):
+        uInfo = userinfo[n] if n in userinfo else emptyUserinfo
+        g.add_node(n, **uInfo)
+
+    print('Adding edges...')
+    edges = {}
+    for info in tqdm(data):
+        
+        senderRoles = userinfo[info[0]]['roles']
+        w = 1
+        if 'autoconfirmed' in senderRoles: w = 4
+        if 'extendedconfirmed' in senderRoles: w = 72
+        if 'sysop' in senderRoles: w = 1584
+
+        if (info[0], info[1]) not in edges:
+            edges[(info[0], info[1])] = {
+                'weight': w, 'first': info[2], 'last': info[2],
+            }
+        else:
+            edges[(info[0], info[1])]['weight'] += w
+            edges[(info[0], info[1])]['last'] = max(edges[(info[0], info[1])]['last'], info[2])
+            edges[(info[0], info[1])]['first'] = min(edges[(info[0], info[1])]['first'], info[2])
+    
+    for e in tqdm(edges):
+        g.add_edge(e[0], e[1], **edges[e])
+
+    del data
+    del nodes
+    del edges
+    print('Done!')
 
 # %% count roles
 roles = Counter()
 for n in g.nodes(data=True):
     roles.update(n[1]['roles'])
-df = pd.DataFrame.from_dict(roles, orient='index').reset_index()
-print(df)
+rolesDf = pd.DataFrame.from_dict(roles, orient='index').reset_index()
+rolesDf['ratio'] = len(g.nodes(data=True)) / rolesDf[0]
+display(rolesDf.round())
 
-# %% different graphs indexing
+# %% groups
 gIndex = {
-    'All': 0,
     'Autoconfirmed': 1,
     'ExtendedConfirmed': 2,
     'Sysop': 3,
@@ -115,7 +123,6 @@ gIndex = {
 }
 ii = list(gIndex.keys())
 
-# %% groups
 def getRoleGraph(g, role: str | int, isGender: bool) -> nx.Graph:
     if isGender:
         subG = g.subgraph([ n[0] for n in g.nodes(data=True) if role == n[1]['gender'] ])
@@ -136,7 +143,7 @@ gSYS = getRoleGraph(g, 'sysop', False)
 gM = getRoleGraph(g, genderMap['male'], True)
 gF = getRoleGraph(g, genderMap['female'], True)
 
-subG = [ gAll, gAC, gACX, gSYS, gM, gF ]
+subG = [ gAC, gACX, gSYS, gM, gF ]
 
 dfNandE = pd.DataFrame(
     columns=['Nodes', 'Edges'], index=ii,
@@ -147,17 +154,16 @@ print(dfNandE)
 # %% comm detection
 # pool = Pool(processes=cores)
 # comms = pool.imap_unordered(nx_comm.louvain_communities, [gAC, gACX, gSYS, gM, gF])
-comms = [ nx_comm.louvain_communities(gg, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-# commsR5 = [ nx_comm.louvain_communities(gg, resolution=5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-[ comm, commAC, commACX, commSYS, commM, commF ] = comms
-comms10 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
-comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
+# comms = [ nx_comm.louvain_communities(gg, seed=42) for gg in tqdm(subG) ]
+# [ comm, commAC, commACX, commSYS, commM, commF ] = comms
+# comms10 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
+# comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
 
 # %%
-def commsInfo(ccc):
+def commsInfo(ccc, graphs):
     res = pd.DataFrame(
         columns=['Total', 'Nr comms', 'Median', 'Avg size', 'std',
-            'Modularity', 'Part quality'
+            'Modularity', 'PQ'
         ], index=ii,
         data=[ [ 
             int(np.sum([ len(c) for c in cc ])),
@@ -167,41 +173,86 @@ def commsInfo(ccc):
             int(np.std([ len(c) for c in cc ])),
             nx_comm.modularity(gg, cc),
             nx_comm.partition_quality(gg, cc)
-        ] for cc, gg in tqdm(list(zip(ccc, subG))) ],
+        ] for cc, gg in tqdm(list(zip(ccc, graphs))) ],
     )
-    print(res)
-print('All')
-commsInfo(comms)
-# print('Less than 5 removed')
-# commsInfo(comms5)
-# print('Less than 10 removed')
-# commsInfo(comms10)
-# print('Comms R5')
-# commsInfo(commsR5)
+    res[['coverage', 'perfermance']] = pd.DataFrame(res['PQ'].tolist(), index=res.index)
+    res.drop(['PQ'], axis=1, inplace=True)
+    display(res)
 
-# %% different resolutions
-print('R 5')
-commsR5 = [ nx_comm.louvain_communities(gg, resolution=5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-commsInfo(commsR5)
-print('R .5')
-commsRP5 = [ nx_comm.louvain_communities(gg, resolution=.5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-commsInfo(commsRP5)
-print('R2')
-commsR2 = [ nx_comm.louvain_communities(gg, resolution=2, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-commsInfo(commsR2)
-print('R .75')
-commsRP75 = [ nx_comm.louvain_communities(gg, resolution=.75, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-commsInfo(commsRP75)
+def commAndPrint(name, graphs, resolution):
+    print(name)
+    communities = [ nx_comm.louvain_communities(gg, seed=42, resolution=resolution) for gg in tqdm(graphs) ]
+    commsInfo(communities, graphs)
+    return communities
+
+
+# %% all
+comms = commAndPrint('All', subG, 1)
+# %% R 0.75
+commsRP75 = commAndPrint('0.75', subG, 0.75)
+# %% R 2
+commsR2 = commAndPrint('2', subG, 2)
+
+
+# %% size distribution
+def plotSizeDistribution(communities):
+    fig, ax = plt.subplots(3,1, figsize=(10,10))
+    titles = ['Autoconfirmed', 'Extended AC', 'Admins']
+    colors = ['b', 'r', 'g']
+    for i in range(3):
+        ax[i].set_title(titles[i])
+        ax[i].hist([ len(c) for c in communities[i] ], 50, density=True, facecolor=colors[i], alpha=0.75)
+        ax[i].grid(True)
+        ax[i].set_ylabel('Density')
+        if i == 2:
+            ax[i].set_xlabel('Number of nodes in community')
+
+
+plotSizeDistribution(comms)
+
 # %%
-# M and F in each commmunities
-res = []
-for c in commACX:
-    subG = g.subgraph(c)
-    nrFema = sum([ 1 for n in subG.nodes(data=True) if n[1]['gender'] ==  1 ])
-    nrMale = sum([ 1 for n in subG.nodes(data=True) if n[1]['gender'] ==  0 ])
-    nrUnkn = sum([ 1 for n in subG.nodes(data=True) if n[1]['gender'] == -1 ])
-    nrAll = nrFema + nrMale + nrUnkn
-    res.append([ nrFema / nrAll, nrMale / nrAll, (nrFema + nrMale) / nrAll])
+def plotGenderDistribution(communities, title):
+    genderInComms = []
+    for c in tqdm(communities):
+        cGraph = g.subgraph(c)
+        nrFema = sum([ 1 for n in cGraph.nodes(data=True) if n[1]['gender'] ==  1 ])
+        nrMale = sum([ 1 for n in cGraph.nodes(data=True) if n[1]['gender'] ==  0 ])
+        nrUnkn = sum([ 1 for n in cGraph.nodes(data=True) if n[1]['gender'] == -1 ])
+        nrAll = nrFema + nrMale + nrUnkn
+        nrKnown = nrFema + nrMale
+        if nrKnown > 0:
+            genderInComms.append([ 
+                nrMale / nrKnown,
+                nrFema / nrKnown,
+                nrKnown / nrAll,
+            ])
+
+    fig, ax = plt.subplots(3,1, figsize=(10,10))
+    fig.suptitle(title, fontsize=16)
+    titles = ['Male', 'Female', 'Known']
+    colors = ['b', 'r', 'g']
+    for i in range(3):
+        ax[i].set_title(titles[i])
+        ax[i].hist([x[i] for x in genderInComms], 50, density=True, facecolor=colors[i], alpha=0.75)
+        ax[i].grid(True)
+
+    plt.show()
+
+
+# %% hist R1
+plotGenderDistribution(comms[0], 'Autoconfirmed')
+plotGenderDistribution(comms[1], 'extended autoconfirmed')
+plotGenderDistribution(comms[2], 'Admins')
+
+# %% hist R0.75
+plotGenderDistribution(commsRP75[0], 'Autoconfirmed 0.75')
+plotGenderDistribution(commsRP75[1], 'extended autoconfirmed 0.75')
+plotGenderDistribution(commsRP75[2], 'Admins 0.75')
+
+# %% hist R2
+plotGenderDistribution(commsR2[0], 'Autoconfirmed 2')
+plotGenderDistribution(commsR2[1], 'extended autoconfirmed 2')
+plotGenderDistribution(commsR2[2], 'Admins 2')
 # %%
 stuff = pd.DataFrame(res)
 print(stuff)
