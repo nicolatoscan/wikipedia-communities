@@ -20,15 +20,27 @@ g = nx.Graph()
 # g = nx.MultiDiGraph()
 with open('dataset/wikitalk.txt', 'r') as f:
     print('Importing data...')
-    data =  [ list(map(int, line.strip().split(' '))) for line in list(f) ]
+    data =  [ list(map(int, line.strip().split(' '))) for line in tqdm(list(f)) ]
 
     print('Adding nodes ...')
     nodes = set([item for sublist in data for item in sublist[0:2]])
     g.add_nodes_from(nodes)
 
     print('Adding edges...')
-    edges =  [ [info[0], info[1], { 'time': info[2] } ] for info in data ]
-    g.add_edges_from(edges)
+    edges = {}
+    for info in tqdm(data):
+        if (info[0], info[1]) not in edges:
+            edges[(info[0], info[1])] = {
+                'weight': 1,
+                'first': info[2],
+                'last': info[2],
+            }
+        else:
+            edges[(info[0], info[1])]['weight'] += 1
+            edges[(info[0], info[1])]['last'] = max(edges[(info[0], info[1])]['last'], info[2])
+            edges[(info[0], info[1])]['first'] = min(edges[(info[0], info[1])]['first'], info[2])
+    for e in tqdm(edges):
+        g.add_edge(e[0], e[1], **edges[e])
 
     print('Done!')
     del data
@@ -136,7 +148,7 @@ print(dfNandE)
 # pool = Pool(processes=cores)
 # comms = pool.imap_unordered(nx_comm.louvain_communities, [gAC, gACX, gSYS, gM, gF])
 comms = [ nx_comm.louvain_communities(gg, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
-# commsR5 = [ nx_comm.louvain_communities(gg, resolution=0.5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+# commsR5 = [ nx_comm.louvain_communities(gg, resolution=5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
 [ comm, commAC, commACX, commSYS, commM, commF ] = comms
 comms10 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
 comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
@@ -145,8 +157,7 @@ comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
 def commsInfo(ccc):
     res = pd.DataFrame(
         columns=['Total', 'Nr comms', 'Median', 'Avg size', 'std',
-            'Modularity',
-            # 'Coverage', 'Part quality'
+            'Modularity', 'Part quality'
         ], index=ii,
         data=[ [ 
             int(np.sum([ len(c) for c in cc ])),
@@ -155,8 +166,7 @@ def commsInfo(ccc):
             int(np.average([ len(c) for c in cc ])),
             int(np.std([ len(c) for c in cc ])),
             nx_comm.modularity(gg, cc),
-            # nx_comm.coverage(gg, cc),
-            # nx_comm.partition_quality(gg, cc)
+            nx_comm.partition_quality(gg, cc)
         ] for cc, gg in tqdm(list(zip(ccc, subG))) ],
     )
     print(res)
@@ -168,9 +178,22 @@ commsInfo(comms)
 # commsInfo(comms10)
 # print('Comms R5')
 # commsInfo(commsR5)
+
+# %% different resolutions
+print('R 5')
+commsR5 = [ nx_comm.louvain_communities(gg, resolution=5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+commsInfo(commsR5)
+print('R .5')
+commsRP5 = [ nx_comm.louvain_communities(gg, resolution=.5, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+commsInfo(commsRP5)
+print('R2')
+commsR2 = [ nx_comm.louvain_communities(gg, resolution=2, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+commsInfo(commsR2)
+print('R .75')
+commsRP75 = [ nx_comm.louvain_communities(gg, resolution=.75, seed=42) for gg in tqdm([ gAll, gAC, gACX, gSYS, gM, gF ]) ]
+commsInfo(commsRP75)
 # %%
 # M and F in each commmunities
-
 res = []
 for c in commACX:
     subG = g.subgraph(c)
@@ -188,4 +211,5 @@ plt.pcolor(stuff)
 plt.yticks(np.arange(0.5, len(stuff.index), 1), stuff.index)
 plt.xticks(np.arange(0.5, len(stuff.columns), 1), stuff.columns)
 plt.show()
-# %%
+# %% how are admins distributed
+
