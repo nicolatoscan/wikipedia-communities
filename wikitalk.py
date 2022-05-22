@@ -193,6 +193,10 @@ commsRP75 = commAndPrint('0.75', subG, 0.75)
 # %% R 2
 commsR2 = commAndPrint('2', subG, 2)
 
+# %%
+comms10 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
+comms5 = [ [ c for c in com if len(c) > 5 ] for com in comms ]
+
 
 # %% size distribution
 def plotSizeDistribution(communities):
@@ -206,7 +210,6 @@ def plotSizeDistribution(communities):
         ax[i].set_ylabel('Density')
         if i == 2:
             ax[i].set_xlabel('Number of nodes in community')
-
 
 plotSizeDistribution(comms)
 
@@ -239,6 +242,16 @@ def plotGenderDistribution(communities, title):
     plt.show()
 
 
+def plotActivnessDistribution(communities):
+    frequensies = []
+    for c in tqdm(communities):
+        cGraph = g.subgraph(c)
+        freqList = [ n[1]['freq'] for n in cGraph.nodes(data=True) ]
+        frequensies.append(np.average(freqList))
+
+    plt.hist(frequensies, 50)
+    plt.show()
+
 # %% hist R1
 plotGenderDistribution(comms[0], 'Autoconfirmed')
 plotGenderDistribution(comms[1], 'extended autoconfirmed')
@@ -254,13 +267,43 @@ plotGenderDistribution(commsR2[0], 'Autoconfirmed 2')
 plotGenderDistribution(commsR2[1], 'extended autoconfirmed 2')
 plotGenderDistribution(commsR2[2], 'Admins 2')
 # %%
-stuff = pd.DataFrame(res)
-print(stuff)
-# %%
-plt.rcParams["figure.figsize"] = (3,40)
-plt.pcolor(stuff)
-plt.yticks(np.arange(0.5, len(stuff.index), 1), stuff.index)
-plt.xticks(np.arange(0.5, len(stuff.columns), 1), stuff.columns)
-plt.show()
-# %% how are admins distributed
+plotActivnessDistribution(comms[1])
+# %% correlations
 
+
+def correlationMatrix(communities):
+    cols = ['freq', 'total', 'count', 'size', 'Male', 'Female', 'Known']
+    info = []
+    for c in communities:
+        cGraph = g.subgraph(c)
+        freq = np.average([ n[1]['freq'] for n in cGraph.nodes(data=True) ])
+        total = np.average([ n[1]['total'] for n in cGraph.nodes(data=True) ])
+        count = np.average([ n[1]['count'] for n in cGraph.nodes(data=True) ])
+        size = np.sum([ 1 for n in cGraph.nodes(data=True) ])
+        nrFema = sum([ 1 for n in cGraph.nodes(data=True) if n[1]['gender'] ==  1 ])
+        nrMale = sum([ 1 for n in cGraph.nodes(data=True) if n[1]['gender'] ==  0 ])
+        nrUnkn = sum([ 1 for n in cGraph.nodes(data=True) if n[1]['gender'] == -1 ])
+        nrAll = nrFema + nrMale + nrUnkn
+        nrKnown = nrFema + nrMale
+
+        info.append([
+            freq,
+            total,
+            count,
+            size,
+            nrMale / nrKnown if nrKnown > 0 else 0,
+            nrFema / nrKnown if nrKnown > 0 else 0,
+            nrKnown / nrAll
+        ])
+
+    dfCorr = pd.DataFrame(info, columns=cols).corr()
+    np.fill_diagonal(dfCorr.values, 0)
+    display(dfCorr.style.background_gradient(cmap='Blues'))
+
+print('Autoconfirmed')
+correlationMatrix(comms[0])
+print('extended autoconfirmed')
+correlationMatrix(comms[1])
+print('Admins')
+correlationMatrix(comms[2])
+# %%
