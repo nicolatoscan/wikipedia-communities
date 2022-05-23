@@ -99,11 +99,22 @@ with open('dataset/wikitalk.txt', 'r') as f:
     
     for e in tqdm(edges):
         g.add_edge(e[0], e[1], **edges[e])
+    g.remove_edges_from(nx.selfloop_edges(g))
+
+    print("Removing bots")
+    bots = []
+    for n in g.nodes(data=True):
+        if 'bot' in n[1]['roles']:
+            bots.append(n[0])
+    for b in bots:
+        g.remove_node(b)
+
 
     del data
     del nodes
     del edges
     print('Done!')
+
 
 # %% count roles
 roles = Counter()
@@ -165,7 +176,7 @@ def commsInfo(ccc, graphs):
         columns=['Total', 'Nr comms', 'Median', 'Avg size', 'std',
             'Modularity', 'PQ'
         ], index=ii,
-        data=[ [ 
+        data=[ [
             int(np.sum([ len(c) for c in cc ])),
             len(cc),
             int(np.median([ len(c) for c in cc ])),
