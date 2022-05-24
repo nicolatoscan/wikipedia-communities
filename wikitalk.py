@@ -33,7 +33,7 @@ with open('dataset/usernames.txt', 'r') as f:
 userinfo = {}
 emptyUserinfo = {
     'id': -1, 'name': '', 'gender': -1, 'roles': ['*'],
-    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0,
+    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False
 }
 
 print("Getting API users information")
@@ -50,7 +50,7 @@ with open('dataset/userinfo.tsv', 'r') as f:
                     'name': name,
                     'gender': genderMap[gender],
                     'roles': roles.split(','),
-                    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0,
+                    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False
                 }
 
 print("Getting calculated users information")
@@ -64,10 +64,11 @@ with open('dataset/users.json', 'r') as f:
         userinfo[iid]['count'] = count
         userinfo[iid]['from'] = fr
         userinfo[iid]['to'] = to
+        userinfo[iid]['active'] = to > 1191838728
         userinfo[iid]['total'] = to - fr
         userinfo[iid]['freq'] = (to - fr) / count
 
-
+bots = []
 with open('dataset/wikitalk.txt', 'r') as f:
     print('Importing data...')
     data =  [ list(map(int, line.strip().split(' '))) for line in tqdm(list(f)) ]
@@ -96,19 +97,12 @@ with open('dataset/wikitalk.txt', 'r') as f:
             edges[(info[0], info[1])]['weight'] += w
             edges[(info[0], info[1])]['last'] = max(edges[(info[0], info[1])]['last'], info[2])
             edges[(info[0], info[1])]['first'] = min(edges[(info[0], info[1])]['first'], info[2])
-    
+
     for e in tqdm(edges):
         g.add_edge(e[0], e[1], **edges[e])
-    g.remove_edges_from(nx.selfloop_edges(g))
 
     print("Removing bots")
-    bots = []
-    for n in g.nodes(data=True):
-        if 'bot' in n[1]['roles']:
-            bots.append(n[0])
-    for b in bots:
-        g.remove_node(b)
-
+    g.remove_nodes_from([ n[0] for n in g.nodes(data=True) if 'bot' in n[1]['roles'] ])
 
     del data
     del nodes
@@ -160,7 +154,7 @@ dfNandE = pd.DataFrame(
     columns=['Nodes', 'Edges'], index=ii,
     data=[ [len(gg.nodes()), len(gg.edges())] for gg in tqdm(subG) ],
 )
-print(dfNandE)
+display(dfNandE)
 
 # %% comm detection
 # pool = Pool(processes=cores)
@@ -186,9 +180,9 @@ def commsInfo(ccc, graphs):
             nx_comm.partition_quality(gg, cc)
         ] for cc, gg in tqdm(list(zip(ccc, graphs))) ],
     )
-    res[['coverage', 'perfermance']] = pd.DataFrame(res['PQ'].tolist(), index=res.index)
+    res[['Coverage', 'Perfermance']] = pd.DataFrame(res['PQ'].tolist(), index=res.index)
     res.drop(['PQ'], axis=1, inplace=True)
-    display(res)
+    display(res.round(2))
 
 def commAndPrint(name, graphs, resolution):
     print(name)
@@ -216,7 +210,7 @@ def plotSizeDistribution(communities):
     colors = ['b', 'r', 'g']
     for i in range(3):
         ax[i].set_title(titles[i])
-        ax[i].hist([ len(c) for c in communities[i] ], 50, density=True, facecolor=colors[i], alpha=0.75)
+        ax[i].hist([ len(c) for c in communities[i] ], 50, facecolor=colors[i], alpha=0.75)
         ax[i].grid(True)
         ax[i].set_ylabel('Density')
         if i == 2:
@@ -247,7 +241,7 @@ def plotGenderDistribution(communities, title):
     colors = ['b', 'r', 'g']
     for i in range(3):
         ax[i].set_title(titles[i])
-        ax[i].hist([x[i] for x in genderInComms], 50, density=True, facecolor=colors[i], alpha=0.75)
+        ax[i].hist([x[i] for x in genderInComms], 50, facecolor=colors[i], alpha=0.75)
         ax[i].grid(True)
 
     plt.show()
@@ -280,8 +274,6 @@ plotGenderDistribution(commsR2[2], 'Admins 2')
 # %%
 plotActivnessDistribution(comms[1])
 # %% correlations
-
-
 def correlationMatrix(communities):
     cols = ['freq', 'total', 'count', 'size', 'Male', 'Female', 'Known']
     info = []
@@ -308,8 +300,7 @@ def correlationMatrix(communities):
         ])
 
     dfCorr = pd.DataFrame(info, columns=cols).corr()
-    np.fill_diagonal(dfCorr.values, 0)
-    display(dfCorr.style.background_gradient(cmap='Blues'))
+    display(dfCorr.style.background_gradient())
 
 print('Autoconfirmed')
 correlationMatrix(comms[0])
@@ -317,4 +308,35 @@ print('extended autoconfirmed')
 correlationMatrix(comms[1])
 print('Admins')
 correlationMatrix(comms[2])
+
+# %% plot property
+def histProperty(communitieses, prop):
+    toHists = []
+    for i in range(3):
+        toHists.append([
+            np.average([ n[1][prop] for n in  g.subgraph(c).nodes(data=True) ])
+            for c in communitieses[i]
+            if len(c) > 2
+        ])
+
+    fig, ax = plt.subplots(3,1, figsize=(10,10))
+    fig.suptitle(prop, fontsize=16)
+    titles = ['AC', 'ACX', 'Admins']
+    colors = ['b', 'r', 'g']
+    for i in range(3):
+        ax[i].set_title(titles[i])
+        ax[i].hist(toHists[i], 50, facecolor=colors[i], alpha=0.75)
+        ax[i].grid(True)
+
+    plt.show()
+
+histProperty(comms, 'freq')
+histProperty(comms, 'count')
+histProperty(comms, 'total')
+histProperty(comms, 'active')
+# %%
+emptyUserinfo = {
+    'id': -1, 'name': '', 'gender': -1, 'roles': ['*'],
+    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False
+}
 # %%
