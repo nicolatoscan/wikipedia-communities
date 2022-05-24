@@ -19,12 +19,12 @@ def getNamesAndIds(f: TextIOWrapper, n: int):
             ids.append(id)
     return names, ids
 
-def query(names, cont):
+def query(username, cont):
     params = {
         'action': 'query',
         'format': 'json',
         'list': 'usercontribs',
-        'ucuser': '|'.join(names),
+        'ucuser': username,
         'ucnamespace': 0,
         'ucstart': '2008-01-07T00:00:00Z',
         'uclimit': 500,	
@@ -34,33 +34,28 @@ def query(names, cont):
         params['uccontinue'] = cont
     return session.get(url=BASE_URL, params=params).json()
 
-def getContributions(users):
+def getContributions(username):
     contrib = []
     cont = False
+
     while True:
-        res = query(users, cont)
+        res = query(username, cont)
         if 'query' in res and 'usercontribs' in res['query']:
             contrib += res['query']['usercontribs']
+
         if 'continue' in res and 'uccontinue' in res['continue']:
             cont = res['continue']['uccontinue']
         else:
             break
+
     contrib.sort(key=lambda x: x['timestamp'])
     return contrib
 
-def saveToFile(ids, usernames, contrib, f: TextIOWrapper):
-    contDic = {}
-    for u in usernames:
-        contDic[u] = []
+def saveToFile(id, username, contrib, f: TextIOWrapper):
+    f.write(f'{id}\t{username}\n')
     for c in contrib:
-        contDic[c['user'].replace(' ', '_') ].append(c)
-
-
-    for id, u in zip(ids, usernames):
-        f.write(f'{id}\t{u}\n')
-        for c in contDic[u]:
-            f.write('\t'.join([ str(c['pageid']), c['title'], c['timestamp'], str(c['revid']) ]) + '\n')
-        f.write('\n')
+        f.write('\t'.join([ str(c['pageid']), c['title'], c['timestamp'], str(c['revid']) ]) + '\n')
+    f.write('\n')
 
 
 
@@ -80,18 +75,17 @@ with open('dataset/usernames.txt') as f:
     lines = [ l.strip().split(' ') for l in list(f)[fr:to] ]
 
 with open(f'contrib/contrib-{str(fr).zfill(7)}-{str(to).zfill(7)}.txt', 'w') as out:
-    setsOfLines = [lines[i:i + n] for i in range(0, len(lines), n)]
+    for id, username in lines:
 
-    for s in setsOfLines:
-        ids = [ l[0] for l in s ]
-        names = [ l[1] for l in s ]
+        cont = getContributions(username)
+        saveToFile(id, username, cont, out)
+        pbar.update(1)
 
-        cont = getContributions(names)
-        saveToFile(ids, names, cont, out)
-
-        pbar.update(len(names))
-
+with open(f'contrib/contrib-{str(fr).zfill(7)}-{str(to).zfill(7)}.done.txt', 'w') as out:
         out.write(f'Done contrib-{str(fr).zfill(7)}-{str(to).zfill(7)}.txt\n')
+with open('contrib/done.txt', 'a') as out:
+        out.write(f'{str(fr).zfill(7)}-{str(to).zfill(7)}\n')
+
 
 pbar.close()
 pbarReq.close()
@@ -99,9 +93,12 @@ print('Done')
 
 
 #  %%
-# n = 5000
-# with open('run.sh', 'w') as f:
-#     for i in range(0, 1140148, n):
-#         f.write(f'tmux new-session -d -s "{i}" python ./dossing-wikipedia.py {i} {i+n} &&\n')
+n = 5000
+ii = 0
+with open('run.sh', 'w') as f:
+    for i in range(0, 1140148, n):
+        f.write(f'tmux new-session -d -s "{ii}" &&')
+        f.write(f'tmux send -t "{ii}" "python ./dossing-wikipedia.py {i} {i+n}" Enter &&\n')
+        ii += 1
 
 # %%

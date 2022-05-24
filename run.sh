@@ -1,229 +1,229 @@
-tmux new-session -d -s "0" python ./dossing-wikipedia.py 0 5000 &&
-tmux new-session -d -s "5000" python ./dossing-wikipedia.py 5000 10000 &&
-tmux new-session -d -s "10000" python ./dossing-wikipedia.py 10000 15000 &&
-tmux new-session -d -s "15000" python ./dossing-wikipedia.py 15000 20000 &&
-tmux new-session -d -s "20000" python ./dossing-wikipedia.py 20000 25000 &&
-tmux new-session -d -s "25000" python ./dossing-wikipedia.py 25000 30000 &&
-tmux new-session -d -s "30000" python ./dossing-wikipedia.py 30000 35000 &&
-tmux new-session -d -s "35000" python ./dossing-wikipedia.py 35000 40000 &&
-tmux new-session -d -s "40000" python ./dossing-wikipedia.py 40000 45000 &&
-tmux new-session -d -s "45000" python ./dossing-wikipedia.py 45000 50000 &&
-tmux new-session -d -s "50000" python ./dossing-wikipedia.py 50000 55000 &&
-tmux new-session -d -s "55000" python ./dossing-wikipedia.py 55000 60000 &&
-tmux new-session -d -s "60000" python ./dossing-wikipedia.py 60000 65000 &&
-tmux new-session -d -s "65000" python ./dossing-wikipedia.py 65000 70000 &&
-tmux new-session -d -s "70000" python ./dossing-wikipedia.py 70000 75000 &&
-tmux new-session -d -s "75000" python ./dossing-wikipedia.py 75000 80000 &&
-tmux new-session -d -s "80000" python ./dossing-wikipedia.py 80000 85000 &&
-tmux new-session -d -s "85000" python ./dossing-wikipedia.py 85000 90000 &&
-tmux new-session -d -s "90000" python ./dossing-wikipedia.py 90000 95000 &&
-tmux new-session -d -s "95000" python ./dossing-wikipedia.py 95000 100000 &&
-tmux new-session -d -s "100000" python ./dossing-wikipedia.py 100000 105000 &&
-tmux new-session -d -s "105000" python ./dossing-wikipedia.py 105000 110000 &&
-tmux new-session -d -s "110000" python ./dossing-wikipedia.py 110000 115000 &&
-tmux new-session -d -s "115000" python ./dossing-wikipedia.py 115000 120000 &&
-tmux new-session -d -s "120000" python ./dossing-wikipedia.py 120000 125000 &&
-tmux new-session -d -s "125000" python ./dossing-wikipedia.py 125000 130000 &&
-tmux new-session -d -s "130000" python ./dossing-wikipedia.py 130000 135000 &&
-tmux new-session -d -s "135000" python ./dossing-wikipedia.py 135000 140000 &&
-tmux new-session -d -s "140000" python ./dossing-wikipedia.py 140000 145000 &&
-tmux new-session -d -s "145000" python ./dossing-wikipedia.py 145000 150000 &&
-tmux new-session -d -s "150000" python ./dossing-wikipedia.py 150000 155000 &&
-tmux new-session -d -s "155000" python ./dossing-wikipedia.py 155000 160000 &&
-tmux new-session -d -s "160000" python ./dossing-wikipedia.py 160000 165000 &&
-tmux new-session -d -s "165000" python ./dossing-wikipedia.py 165000 170000 &&
-tmux new-session -d -s "170000" python ./dossing-wikipedia.py 170000 175000 &&
-tmux new-session -d -s "175000" python ./dossing-wikipedia.py 175000 180000 &&
-tmux new-session -d -s "180000" python ./dossing-wikipedia.py 180000 185000 &&
-tmux new-session -d -s "185000" python ./dossing-wikipedia.py 185000 190000 &&
-tmux new-session -d -s "190000" python ./dossing-wikipedia.py 190000 195000 &&
-tmux new-session -d -s "195000" python ./dossing-wikipedia.py 195000 200000 &&
-tmux new-session -d -s "200000" python ./dossing-wikipedia.py 200000 205000 &&
-tmux new-session -d -s "205000" python ./dossing-wikipedia.py 205000 210000 &&
-tmux new-session -d -s "210000" python ./dossing-wikipedia.py 210000 215000 &&
-tmux new-session -d -s "215000" python ./dossing-wikipedia.py 215000 220000 &&
-tmux new-session -d -s "220000" python ./dossing-wikipedia.py 220000 225000 &&
-tmux new-session -d -s "225000" python ./dossing-wikipedia.py 225000 230000 &&
-tmux new-session -d -s "230000" python ./dossing-wikipedia.py 230000 235000 &&
-tmux new-session -d -s "235000" python ./dossing-wikipedia.py 235000 240000 &&
-tmux new-session -d -s "240000" python ./dossing-wikipedia.py 240000 245000 &&
-tmux new-session -d -s "245000" python ./dossing-wikipedia.py 245000 250000 &&
-tmux new-session -d -s "250000" python ./dossing-wikipedia.py 250000 255000 &&
-tmux new-session -d -s "255000" python ./dossing-wikipedia.py 255000 260000 &&
-tmux new-session -d -s "260000" python ./dossing-wikipedia.py 260000 265000 &&
-tmux new-session -d -s "265000" python ./dossing-wikipedia.py 265000 270000 &&
-tmux new-session -d -s "270000" python ./dossing-wikipedia.py 270000 275000 &&
-tmux new-session -d -s "275000" python ./dossing-wikipedia.py 275000 280000 &&
-tmux new-session -d -s "280000" python ./dossing-wikipedia.py 280000 285000 &&
-tmux new-session -d -s "285000" python ./dossing-wikipedia.py 285000 290000 &&
-tmux new-session -d -s "290000" python ./dossing-wikipedia.py 290000 295000 &&
-tmux new-session -d -s "295000" python ./dossing-wikipedia.py 295000 300000 &&
-tmux new-session -d -s "300000" python ./dossing-wikipedia.py 300000 305000 &&
-tmux new-session -d -s "305000" python ./dossing-wikipedia.py 305000 310000 &&
-tmux new-session -d -s "310000" python ./dossing-wikipedia.py 310000 315000 &&
-tmux new-session -d -s "315000" python ./dossing-wikipedia.py 315000 320000 &&
-tmux new-session -d -s "320000" python ./dossing-wikipedia.py 320000 325000 &&
-tmux new-session -d -s "325000" python ./dossing-wikipedia.py 325000 330000 &&
-tmux new-session -d -s "330000" python ./dossing-wikipedia.py 330000 335000 &&
-tmux new-session -d -s "335000" python ./dossing-wikipedia.py 335000 340000 &&
-tmux new-session -d -s "340000" python ./dossing-wikipedia.py 340000 345000 &&
-tmux new-session -d -s "345000" python ./dossing-wikipedia.py 345000 350000 &&
-tmux new-session -d -s "350000" python ./dossing-wikipedia.py 350000 355000 &&
-tmux new-session -d -s "355000" python ./dossing-wikipedia.py 355000 360000 &&
-tmux new-session -d -s "360000" python ./dossing-wikipedia.py 360000 365000 &&
-tmux new-session -d -s "365000" python ./dossing-wikipedia.py 365000 370000 &&
-tmux new-session -d -s "370000" python ./dossing-wikipedia.py 370000 375000 &&
-tmux new-session -d -s "375000" python ./dossing-wikipedia.py 375000 380000 &&
-tmux new-session -d -s "380000" python ./dossing-wikipedia.py 380000 385000 &&
-tmux new-session -d -s "385000" python ./dossing-wikipedia.py 385000 390000 &&
-tmux new-session -d -s "390000" python ./dossing-wikipedia.py 390000 395000 &&
-tmux new-session -d -s "395000" python ./dossing-wikipedia.py 395000 400000 &&
-tmux new-session -d -s "400000" python ./dossing-wikipedia.py 400000 405000 &&
-tmux new-session -d -s "405000" python ./dossing-wikipedia.py 405000 410000 &&
-tmux new-session -d -s "410000" python ./dossing-wikipedia.py 410000 415000 &&
-tmux new-session -d -s "415000" python ./dossing-wikipedia.py 415000 420000 &&
-tmux new-session -d -s "420000" python ./dossing-wikipedia.py 420000 425000 &&
-tmux new-session -d -s "425000" python ./dossing-wikipedia.py 425000 430000 &&
-tmux new-session -d -s "430000" python ./dossing-wikipedia.py 430000 435000 &&
-tmux new-session -d -s "435000" python ./dossing-wikipedia.py 435000 440000 &&
-tmux new-session -d -s "440000" python ./dossing-wikipedia.py 440000 445000 &&
-tmux new-session -d -s "445000" python ./dossing-wikipedia.py 445000 450000 &&
-tmux new-session -d -s "450000" python ./dossing-wikipedia.py 450000 455000 &&
-tmux new-session -d -s "455000" python ./dossing-wikipedia.py 455000 460000 &&
-tmux new-session -d -s "460000" python ./dossing-wikipedia.py 460000 465000 &&
-tmux new-session -d -s "465000" python ./dossing-wikipedia.py 465000 470000 &&
-tmux new-session -d -s "470000" python ./dossing-wikipedia.py 470000 475000 &&
-tmux new-session -d -s "475000" python ./dossing-wikipedia.py 475000 480000 &&
-tmux new-session -d -s "480000" python ./dossing-wikipedia.py 480000 485000 &&
-tmux new-session -d -s "485000" python ./dossing-wikipedia.py 485000 490000 &&
-tmux new-session -d -s "490000" python ./dossing-wikipedia.py 490000 495000 &&
-tmux new-session -d -s "495000" python ./dossing-wikipedia.py 495000 500000 &&
-tmux new-session -d -s "500000" python ./dossing-wikipedia.py 500000 505000 &&
-tmux new-session -d -s "505000" python ./dossing-wikipedia.py 505000 510000 &&
-tmux new-session -d -s "510000" python ./dossing-wikipedia.py 510000 515000 &&
-tmux new-session -d -s "515000" python ./dossing-wikipedia.py 515000 520000 &&
-tmux new-session -d -s "520000" python ./dossing-wikipedia.py 520000 525000 &&
-tmux new-session -d -s "525000" python ./dossing-wikipedia.py 525000 530000 &&
-tmux new-session -d -s "530000" python ./dossing-wikipedia.py 530000 535000 &&
-tmux new-session -d -s "535000" python ./dossing-wikipedia.py 535000 540000 &&
-tmux new-session -d -s "540000" python ./dossing-wikipedia.py 540000 545000 &&
-tmux new-session -d -s "545000" python ./dossing-wikipedia.py 545000 550000 &&
-tmux new-session -d -s "550000" python ./dossing-wikipedia.py 550000 555000 &&
-tmux new-session -d -s "555000" python ./dossing-wikipedia.py 555000 560000 &&
-tmux new-session -d -s "560000" python ./dossing-wikipedia.py 560000 565000 &&
-tmux new-session -d -s "565000" python ./dossing-wikipedia.py 565000 570000 &&
-tmux new-session -d -s "570000" python ./dossing-wikipedia.py 570000 575000 &&
-tmux new-session -d -s "575000" python ./dossing-wikipedia.py 575000 580000 &&
-tmux new-session -d -s "580000" python ./dossing-wikipedia.py 580000 585000 &&
-tmux new-session -d -s "585000" python ./dossing-wikipedia.py 585000 590000 &&
-tmux new-session -d -s "590000" python ./dossing-wikipedia.py 590000 595000 &&
-tmux new-session -d -s "595000" python ./dossing-wikipedia.py 595000 600000 &&
-tmux new-session -d -s "600000" python ./dossing-wikipedia.py 600000 605000 &&
-tmux new-session -d -s "605000" python ./dossing-wikipedia.py 605000 610000 &&
-tmux new-session -d -s "610000" python ./dossing-wikipedia.py 610000 615000 &&
-tmux new-session -d -s "615000" python ./dossing-wikipedia.py 615000 620000 &&
-tmux new-session -d -s "620000" python ./dossing-wikipedia.py 620000 625000 &&
-tmux new-session -d -s "625000" python ./dossing-wikipedia.py 625000 630000 &&
-tmux new-session -d -s "630000" python ./dossing-wikipedia.py 630000 635000 &&
-tmux new-session -d -s "635000" python ./dossing-wikipedia.py 635000 640000 &&
-tmux new-session -d -s "640000" python ./dossing-wikipedia.py 640000 645000 &&
-tmux new-session -d -s "645000" python ./dossing-wikipedia.py 645000 650000 &&
-tmux new-session -d -s "650000" python ./dossing-wikipedia.py 650000 655000 &&
-tmux new-session -d -s "655000" python ./dossing-wikipedia.py 655000 660000 &&
-tmux new-session -d -s "660000" python ./dossing-wikipedia.py 660000 665000 &&
-tmux new-session -d -s "665000" python ./dossing-wikipedia.py 665000 670000 &&
-tmux new-session -d -s "670000" python ./dossing-wikipedia.py 670000 675000 &&
-tmux new-session -d -s "675000" python ./dossing-wikipedia.py 675000 680000 &&
-tmux new-session -d -s "680000" python ./dossing-wikipedia.py 680000 685000 &&
-tmux new-session -d -s "685000" python ./dossing-wikipedia.py 685000 690000 &&
-tmux new-session -d -s "690000" python ./dossing-wikipedia.py 690000 695000 &&
-tmux new-session -d -s "695000" python ./dossing-wikipedia.py 695000 700000 &&
-tmux new-session -d -s "700000" python ./dossing-wikipedia.py 700000 705000 &&
-tmux new-session -d -s "705000" python ./dossing-wikipedia.py 705000 710000 &&
-tmux new-session -d -s "710000" python ./dossing-wikipedia.py 710000 715000 &&
-tmux new-session -d -s "715000" python ./dossing-wikipedia.py 715000 720000 &&
-tmux new-session -d -s "720000" python ./dossing-wikipedia.py 720000 725000 &&
-tmux new-session -d -s "725000" python ./dossing-wikipedia.py 725000 730000 &&
-tmux new-session -d -s "730000" python ./dossing-wikipedia.py 730000 735000 &&
-tmux new-session -d -s "735000" python ./dossing-wikipedia.py 735000 740000 &&
-tmux new-session -d -s "740000" python ./dossing-wikipedia.py 740000 745000 &&
-tmux new-session -d -s "745000" python ./dossing-wikipedia.py 745000 750000 &&
-tmux new-session -d -s "750000" python ./dossing-wikipedia.py 750000 755000 &&
-tmux new-session -d -s "755000" python ./dossing-wikipedia.py 755000 760000 &&
-tmux new-session -d -s "760000" python ./dossing-wikipedia.py 760000 765000 &&
-tmux new-session -d -s "765000" python ./dossing-wikipedia.py 765000 770000 &&
-tmux new-session -d -s "770000" python ./dossing-wikipedia.py 770000 775000 &&
-tmux new-session -d -s "775000" python ./dossing-wikipedia.py 775000 780000 &&
-tmux new-session -d -s "780000" python ./dossing-wikipedia.py 780000 785000 &&
-tmux new-session -d -s "785000" python ./dossing-wikipedia.py 785000 790000 &&
-tmux new-session -d -s "790000" python ./dossing-wikipedia.py 790000 795000 &&
-tmux new-session -d -s "795000" python ./dossing-wikipedia.py 795000 800000 &&
-tmux new-session -d -s "800000" python ./dossing-wikipedia.py 800000 805000 &&
-tmux new-session -d -s "805000" python ./dossing-wikipedia.py 805000 810000 &&
-tmux new-session -d -s "810000" python ./dossing-wikipedia.py 810000 815000 &&
-tmux new-session -d -s "815000" python ./dossing-wikipedia.py 815000 820000 &&
-tmux new-session -d -s "820000" python ./dossing-wikipedia.py 820000 825000 &&
-tmux new-session -d -s "825000" python ./dossing-wikipedia.py 825000 830000 &&
-tmux new-session -d -s "830000" python ./dossing-wikipedia.py 830000 835000 &&
-tmux new-session -d -s "835000" python ./dossing-wikipedia.py 835000 840000 &&
-tmux new-session -d -s "840000" python ./dossing-wikipedia.py 840000 845000 &&
-tmux new-session -d -s "845000" python ./dossing-wikipedia.py 845000 850000 &&
-tmux new-session -d -s "850000" python ./dossing-wikipedia.py 850000 855000 &&
-tmux new-session -d -s "855000" python ./dossing-wikipedia.py 855000 860000 &&
-tmux new-session -d -s "860000" python ./dossing-wikipedia.py 860000 865000 &&
-tmux new-session -d -s "865000" python ./dossing-wikipedia.py 865000 870000 &&
-tmux new-session -d -s "870000" python ./dossing-wikipedia.py 870000 875000 &&
-tmux new-session -d -s "875000" python ./dossing-wikipedia.py 875000 880000 &&
-tmux new-session -d -s "880000" python ./dossing-wikipedia.py 880000 885000 &&
-tmux new-session -d -s "885000" python ./dossing-wikipedia.py 885000 890000 &&
-tmux new-session -d -s "890000" python ./dossing-wikipedia.py 890000 895000 &&
-tmux new-session -d -s "895000" python ./dossing-wikipedia.py 895000 900000 &&
-tmux new-session -d -s "900000" python ./dossing-wikipedia.py 900000 905000 &&
-tmux new-session -d -s "905000" python ./dossing-wikipedia.py 905000 910000 &&
-tmux new-session -d -s "910000" python ./dossing-wikipedia.py 910000 915000 &&
-tmux new-session -d -s "915000" python ./dossing-wikipedia.py 915000 920000 &&
-tmux new-session -d -s "920000" python ./dossing-wikipedia.py 920000 925000 &&
-tmux new-session -d -s "925000" python ./dossing-wikipedia.py 925000 930000 &&
-tmux new-session -d -s "930000" python ./dossing-wikipedia.py 930000 935000 &&
-tmux new-session -d -s "935000" python ./dossing-wikipedia.py 935000 940000 &&
-tmux new-session -d -s "940000" python ./dossing-wikipedia.py 940000 945000 &&
-tmux new-session -d -s "945000" python ./dossing-wikipedia.py 945000 950000 &&
-tmux new-session -d -s "950000" python ./dossing-wikipedia.py 950000 955000 &&
-tmux new-session -d -s "955000" python ./dossing-wikipedia.py 955000 960000 &&
-tmux new-session -d -s "960000" python ./dossing-wikipedia.py 960000 965000 &&
-tmux new-session -d -s "965000" python ./dossing-wikipedia.py 965000 970000 &&
-tmux new-session -d -s "970000" python ./dossing-wikipedia.py 970000 975000 &&
-tmux new-session -d -s "975000" python ./dossing-wikipedia.py 975000 980000 &&
-tmux new-session -d -s "980000" python ./dossing-wikipedia.py 980000 985000 &&
-tmux new-session -d -s "985000" python ./dossing-wikipedia.py 985000 990000 &&
-tmux new-session -d -s "990000" python ./dossing-wikipedia.py 990000 995000 &&
-tmux new-session -d -s "995000" python ./dossing-wikipedia.py 995000 1000000 &&
-tmux new-session -d -s "1000000" python ./dossing-wikipedia.py 1000000 1005000 &&
-tmux new-session -d -s "1005000" python ./dossing-wikipedia.py 1005000 1010000 &&
-tmux new-session -d -s "1010000" python ./dossing-wikipedia.py 1010000 1015000 &&
-tmux new-session -d -s "1015000" python ./dossing-wikipedia.py 1015000 1020000 &&
-tmux new-session -d -s "1020000" python ./dossing-wikipedia.py 1020000 1025000 &&
-tmux new-session -d -s "1025000" python ./dossing-wikipedia.py 1025000 1030000 &&
-tmux new-session -d -s "1030000" python ./dossing-wikipedia.py 1030000 1035000 &&
-tmux new-session -d -s "1035000" python ./dossing-wikipedia.py 1035000 1040000 &&
-tmux new-session -d -s "1040000" python ./dossing-wikipedia.py 1040000 1045000 &&
-tmux new-session -d -s "1045000" python ./dossing-wikipedia.py 1045000 1050000 &&
-tmux new-session -d -s "1050000" python ./dossing-wikipedia.py 1050000 1055000 &&
-tmux new-session -d -s "1055000" python ./dossing-wikipedia.py 1055000 1060000 &&
-tmux new-session -d -s "1060000" python ./dossing-wikipedia.py 1060000 1065000 &&
-tmux new-session -d -s "1065000" python ./dossing-wikipedia.py 1065000 1070000 &&
-tmux new-session -d -s "1070000" python ./dossing-wikipedia.py 1070000 1075000 &&
-tmux new-session -d -s "1075000" python ./dossing-wikipedia.py 1075000 1080000 &&
-tmux new-session -d -s "1080000" python ./dossing-wikipedia.py 1080000 1085000 &&
-tmux new-session -d -s "1085000" python ./dossing-wikipedia.py 1085000 1090000 &&
-tmux new-session -d -s "1090000" python ./dossing-wikipedia.py 1090000 1095000 &&
-tmux new-session -d -s "1095000" python ./dossing-wikipedia.py 1095000 1100000 &&
-tmux new-session -d -s "1100000" python ./dossing-wikipedia.py 1100000 1105000 &&
-tmux new-session -d -s "1105000" python ./dossing-wikipedia.py 1105000 1110000 &&
-tmux new-session -d -s "1110000" python ./dossing-wikipedia.py 1110000 1115000 &&
-tmux new-session -d -s "1115000" python ./dossing-wikipedia.py 1115000 1120000 &&
-tmux new-session -d -s "1120000" python ./dossing-wikipedia.py 1120000 1125000 &&
-tmux new-session -d -s "1125000" python ./dossing-wikipedia.py 1125000 1130000 &&
-tmux new-session -d -s "1130000" python ./dossing-wikipedia.py 1130000 1135000 &&
-tmux new-session -d -s "1135000" python ./dossing-wikipedia.py 1135000 1140000 &&
-tmux new-session -d -s "1140000" python ./dossing-wikipedia.py 1140000 1145000 &&
+tmux new-session -d -s "0" && tmux send -t "0" "python ./dossing-wikipedia.py 0 5000" Enter &&
+tmux new-session -d -s "1" && tmux send -t "1" "python ./dossing-wikipedia.py 5000 10000" Enter &&
+tmux new-session -d -s "2" && tmux send -t "2" "python ./dossing-wikipedia.py 10000 15000" Enter &&
+tmux new-session -d -s "3" && tmux send -t "3" "python ./dossing-wikipedia.py 15000 20000" Enter &&
+tmux new-session -d -s "4" && tmux send -t "4" "python ./dossing-wikipedia.py 20000 25000" Enter &&
+tmux new-session -d -s "5" && tmux send -t "5" "python ./dossing-wikipedia.py 25000 30000" Enter &&
+tmux new-session -d -s "6" && tmux send -t "6" "python ./dossing-wikipedia.py 30000 35000" Enter &&
+tmux new-session -d -s "7" && tmux send -t "7" "python ./dossing-wikipedia.py 35000 40000" Enter &&
+tmux new-session -d -s "8" && tmux send -t "8" "python ./dossing-wikipedia.py 40000 45000" Enter &&
+tmux new-session -d -s "9" && tmux send -t "9" "python ./dossing-wikipedia.py 45000 50000" Enter &&
+tmux new-session -d -s "10" && tmux send -t "10" "python ./dossing-wikipedia.py 50000 55000" Enter &&
+tmux new-session -d -s "11" && tmux send -t "11" "python ./dossing-wikipedia.py 55000 60000" Enter &&
+tmux new-session -d -s "12" && tmux send -t "12" "python ./dossing-wikipedia.py 60000 65000" Enter &&
+tmux new-session -d -s "13" && tmux send -t "13" "python ./dossing-wikipedia.py 65000 70000" Enter &&
+tmux new-session -d -s "14" && tmux send -t "14" "python ./dossing-wikipedia.py 70000 75000" Enter &&
+tmux new-session -d -s "15" && tmux send -t "15" "python ./dossing-wikipedia.py 75000 80000" Enter &&
+tmux new-session -d -s "16" && tmux send -t "16" "python ./dossing-wikipedia.py 80000 85000" Enter &&
+tmux new-session -d -s "17" && tmux send -t "17" "python ./dossing-wikipedia.py 85000 90000" Enter &&
+tmux new-session -d -s "18" && tmux send -t "18" "python ./dossing-wikipedia.py 90000 95000" Enter &&
+tmux new-session -d -s "19" && tmux send -t "19" "python ./dossing-wikipedia.py 95000 100000" Enter &&
+tmux new-session -d -s "20" && tmux send -t "20" "python ./dossing-wikipedia.py 100000 105000" Enter &&
+tmux new-session -d -s "21" && tmux send -t "21" "python ./dossing-wikipedia.py 105000 110000" Enter &&
+tmux new-session -d -s "22" && tmux send -t "22" "python ./dossing-wikipedia.py 110000 115000" Enter &&
+tmux new-session -d -s "23" && tmux send -t "23" "python ./dossing-wikipedia.py 115000 120000" Enter &&
+tmux new-session -d -s "24" && tmux send -t "24" "python ./dossing-wikipedia.py 120000 125000" Enter &&
+tmux new-session -d -s "25" && tmux send -t "25" "python ./dossing-wikipedia.py 125000 130000" Enter &&
+tmux new-session -d -s "26" && tmux send -t "26" "python ./dossing-wikipedia.py 130000 135000" Enter &&
+tmux new-session -d -s "27" && tmux send -t "27" "python ./dossing-wikipedia.py 135000 140000" Enter &&
+tmux new-session -d -s "28" && tmux send -t "28" "python ./dossing-wikipedia.py 140000 145000" Enter &&
+tmux new-session -d -s "29" && tmux send -t "29" "python ./dossing-wikipedia.py 145000 150000" Enter &&
+tmux new-session -d -s "30" && tmux send -t "30" "python ./dossing-wikipedia.py 150000 155000" Enter &&
+tmux new-session -d -s "31" && tmux send -t "31" "python ./dossing-wikipedia.py 155000 160000" Enter &&
+tmux new-session -d -s "32" && tmux send -t "32" "python ./dossing-wikipedia.py 160000 165000" Enter &&
+tmux new-session -d -s "33" && tmux send -t "33" "python ./dossing-wikipedia.py 165000 170000" Enter &&
+tmux new-session -d -s "34" && tmux send -t "34" "python ./dossing-wikipedia.py 170000 175000" Enter &&
+tmux new-session -d -s "35" && tmux send -t "35" "python ./dossing-wikipedia.py 175000 180000" Enter &&
+tmux new-session -d -s "36" && tmux send -t "36" "python ./dossing-wikipedia.py 180000 185000" Enter &&
+tmux new-session -d -s "37" && tmux send -t "37" "python ./dossing-wikipedia.py 185000 190000" Enter &&
+tmux new-session -d -s "38" && tmux send -t "38" "python ./dossing-wikipedia.py 190000 195000" Enter &&
+tmux new-session -d -s "39" && tmux send -t "39" "python ./dossing-wikipedia.py 195000 200000" Enter &&
+tmux new-session -d -s "40" && tmux send -t "40" "python ./dossing-wikipedia.py 200000 205000" Enter &&
+tmux new-session -d -s "41" && tmux send -t "41" "python ./dossing-wikipedia.py 205000 210000" Enter &&
+tmux new-session -d -s "42" && tmux send -t "42" "python ./dossing-wikipedia.py 210000 215000" Enter &&
+tmux new-session -d -s "43" && tmux send -t "43" "python ./dossing-wikipedia.py 215000 220000" Enter &&
+tmux new-session -d -s "44" && tmux send -t "44" "python ./dossing-wikipedia.py 220000 225000" Enter &&
+tmux new-session -d -s "45" && tmux send -t "45" "python ./dossing-wikipedia.py 225000 230000" Enter &&
+tmux new-session -d -s "46" && tmux send -t "46" "python ./dossing-wikipedia.py 230000 235000" Enter &&
+tmux new-session -d -s "47" && tmux send -t "47" "python ./dossing-wikipedia.py 235000 240000" Enter &&
+tmux new-session -d -s "48" && tmux send -t "48" "python ./dossing-wikipedia.py 240000 245000" Enter &&
+tmux new-session -d -s "49" && tmux send -t "49" "python ./dossing-wikipedia.py 245000 250000" Enter &&
+tmux new-session -d -s "50" && tmux send -t "50" "python ./dossing-wikipedia.py 250000 255000" Enter &&
+tmux new-session -d -s "51" && tmux send -t "51" "python ./dossing-wikipedia.py 255000 260000" Enter &&
+tmux new-session -d -s "52" && tmux send -t "52" "python ./dossing-wikipedia.py 260000 265000" Enter &&
+tmux new-session -d -s "53" && tmux send -t "53" "python ./dossing-wikipedia.py 265000 270000" Enter &&
+tmux new-session -d -s "54" && tmux send -t "54" "python ./dossing-wikipedia.py 270000 275000" Enter &&
+tmux new-session -d -s "55" && tmux send -t "55" "python ./dossing-wikipedia.py 275000 280000" Enter &&
+tmux new-session -d -s "56" && tmux send -t "56" "python ./dossing-wikipedia.py 280000 285000" Enter &&
+tmux new-session -d -s "57" && tmux send -t "57" "python ./dossing-wikipedia.py 285000 290000" Enter &&
+tmux new-session -d -s "58" && tmux send -t "58" "python ./dossing-wikipedia.py 290000 295000" Enter &&
+tmux new-session -d -s "59" && tmux send -t "59" "python ./dossing-wikipedia.py 295000 300000" Enter &&
+tmux new-session -d -s "60" && tmux send -t "60" "python ./dossing-wikipedia.py 300000 305000" Enter &&
+tmux new-session -d -s "61" && tmux send -t "61" "python ./dossing-wikipedia.py 305000 310000" Enter &&
+tmux new-session -d -s "62" && tmux send -t "62" "python ./dossing-wikipedia.py 310000 315000" Enter &&
+tmux new-session -d -s "63" && tmux send -t "63" "python ./dossing-wikipedia.py 315000 320000" Enter &&
+tmux new-session -d -s "64" && tmux send -t "64" "python ./dossing-wikipedia.py 320000 325000" Enter &&
+tmux new-session -d -s "65" && tmux send -t "65" "python ./dossing-wikipedia.py 325000 330000" Enter &&
+tmux new-session -d -s "66" && tmux send -t "66" "python ./dossing-wikipedia.py 330000 335000" Enter &&
+tmux new-session -d -s "67" && tmux send -t "67" "python ./dossing-wikipedia.py 335000 340000" Enter &&
+tmux new-session -d -s "68" && tmux send -t "68" "python ./dossing-wikipedia.py 340000 345000" Enter &&
+tmux new-session -d -s "69" && tmux send -t "69" "python ./dossing-wikipedia.py 345000 350000" Enter &&
+tmux new-session -d -s "70" && tmux send -t "70" "python ./dossing-wikipedia.py 350000 355000" Enter &&
+tmux new-session -d -s "71" && tmux send -t "71" "python ./dossing-wikipedia.py 355000 360000" Enter &&
+tmux new-session -d -s "72" && tmux send -t "72" "python ./dossing-wikipedia.py 360000 365000" Enter &&
+tmux new-session -d -s "73" && tmux send -t "73" "python ./dossing-wikipedia.py 365000 370000" Enter &&
+tmux new-session -d -s "74" && tmux send -t "74" "python ./dossing-wikipedia.py 370000 375000" Enter &&
+tmux new-session -d -s "75" && tmux send -t "75" "python ./dossing-wikipedia.py 375000 380000" Enter &&
+tmux new-session -d -s "76" && tmux send -t "76" "python ./dossing-wikipedia.py 380000 385000" Enter &&
+tmux new-session -d -s "77" && tmux send -t "77" "python ./dossing-wikipedia.py 385000 390000" Enter &&
+tmux new-session -d -s "78" && tmux send -t "78" "python ./dossing-wikipedia.py 390000 395000" Enter &&
+tmux new-session -d -s "79" && tmux send -t "79" "python ./dossing-wikipedia.py 395000 400000" Enter &&
+tmux new-session -d -s "80" && tmux send -t "80" "python ./dossing-wikipedia.py 400000 405000" Enter &&
+tmux new-session -d -s "81" && tmux send -t "81" "python ./dossing-wikipedia.py 405000 410000" Enter &&
+tmux new-session -d -s "82" && tmux send -t "82" "python ./dossing-wikipedia.py 410000 415000" Enter &&
+tmux new-session -d -s "83" && tmux send -t "83" "python ./dossing-wikipedia.py 415000 420000" Enter &&
+tmux new-session -d -s "84" && tmux send -t "84" "python ./dossing-wikipedia.py 420000 425000" Enter &&
+tmux new-session -d -s "85" && tmux send -t "85" "python ./dossing-wikipedia.py 425000 430000" Enter &&
+tmux new-session -d -s "86" && tmux send -t "86" "python ./dossing-wikipedia.py 430000 435000" Enter &&
+tmux new-session -d -s "87" && tmux send -t "87" "python ./dossing-wikipedia.py 435000 440000" Enter &&
+tmux new-session -d -s "88" && tmux send -t "88" "python ./dossing-wikipedia.py 440000 445000" Enter &&
+tmux new-session -d -s "89" && tmux send -t "89" "python ./dossing-wikipedia.py 445000 450000" Enter &&
+tmux new-session -d -s "90" && tmux send -t "90" "python ./dossing-wikipedia.py 450000 455000" Enter &&
+tmux new-session -d -s "91" && tmux send -t "91" "python ./dossing-wikipedia.py 455000 460000" Enter &&
+tmux new-session -d -s "92" && tmux send -t "92" "python ./dossing-wikipedia.py 460000 465000" Enter &&
+tmux new-session -d -s "93" && tmux send -t "93" "python ./dossing-wikipedia.py 465000 470000" Enter &&
+tmux new-session -d -s "94" && tmux send -t "94" "python ./dossing-wikipedia.py 470000 475000" Enter &&
+tmux new-session -d -s "95" && tmux send -t "95" "python ./dossing-wikipedia.py 475000 480000" Enter &&
+tmux new-session -d -s "96" && tmux send -t "96" "python ./dossing-wikipedia.py 480000 485000" Enter &&
+tmux new-session -d -s "97" && tmux send -t "97" "python ./dossing-wikipedia.py 485000 490000" Enter &&
+tmux new-session -d -s "98" && tmux send -t "98" "python ./dossing-wikipedia.py 490000 495000" Enter &&
+tmux new-session -d -s "99" && tmux send -t "99" "python ./dossing-wikipedia.py 495000 500000" Enter &&
+tmux new-session -d -s "100" && tmux send -t "100" "python ./dossing-wikipedia.py 500000 505000" Enter &&
+tmux new-session -d -s "101" && tmux send -t "101" "python ./dossing-wikipedia.py 505000 510000" Enter &&
+tmux new-session -d -s "102" && tmux send -t "102" "python ./dossing-wikipedia.py 510000 515000" Enter &&
+tmux new-session -d -s "103" && tmux send -t "103" "python ./dossing-wikipedia.py 515000 520000" Enter &&
+tmux new-session -d -s "104" && tmux send -t "104" "python ./dossing-wikipedia.py 520000 525000" Enter &&
+tmux new-session -d -s "105" && tmux send -t "105" "python ./dossing-wikipedia.py 525000 530000" Enter &&
+tmux new-session -d -s "106" && tmux send -t "106" "python ./dossing-wikipedia.py 530000 535000" Enter &&
+tmux new-session -d -s "107" && tmux send -t "107" "python ./dossing-wikipedia.py 535000 540000" Enter &&
+tmux new-session -d -s "108" && tmux send -t "108" "python ./dossing-wikipedia.py 540000 545000" Enter &&
+tmux new-session -d -s "109" && tmux send -t "109" "python ./dossing-wikipedia.py 545000 550000" Enter &&
+tmux new-session -d -s "110" && tmux send -t "110" "python ./dossing-wikipedia.py 550000 555000" Enter &&
+tmux new-session -d -s "111" && tmux send -t "111" "python ./dossing-wikipedia.py 555000 560000" Enter &&
+tmux new-session -d -s "112" && tmux send -t "112" "python ./dossing-wikipedia.py 560000 565000" Enter &&
+tmux new-session -d -s "113" && tmux send -t "113" "python ./dossing-wikipedia.py 565000 570000" Enter &&
+tmux new-session -d -s "114" && tmux send -t "114" "python ./dossing-wikipedia.py 570000 575000" Enter &&
+tmux new-session -d -s "115" && tmux send -t "115" "python ./dossing-wikipedia.py 575000 580000" Enter &&
+tmux new-session -d -s "116" && tmux send -t "116" "python ./dossing-wikipedia.py 580000 585000" Enter &&
+tmux new-session -d -s "117" && tmux send -t "117" "python ./dossing-wikipedia.py 585000 590000" Enter &&
+tmux new-session -d -s "118" && tmux send -t "118" "python ./dossing-wikipedia.py 590000 595000" Enter &&
+tmux new-session -d -s "119" && tmux send -t "119" "python ./dossing-wikipedia.py 595000 600000" Enter &&
+tmux new-session -d -s "120" && tmux send -t "120" "python ./dossing-wikipedia.py 600000 605000" Enter &&
+tmux new-session -d -s "121" && tmux send -t "121" "python ./dossing-wikipedia.py 605000 610000" Enter &&
+tmux new-session -d -s "122" && tmux send -t "122" "python ./dossing-wikipedia.py 610000 615000" Enter &&
+tmux new-session -d -s "123" && tmux send -t "123" "python ./dossing-wikipedia.py 615000 620000" Enter &&
+tmux new-session -d -s "124" && tmux send -t "124" "python ./dossing-wikipedia.py 620000 625000" Enter &&
+tmux new-session -d -s "125" && tmux send -t "125" "python ./dossing-wikipedia.py 625000 630000" Enter &&
+tmux new-session -d -s "126" && tmux send -t "126" "python ./dossing-wikipedia.py 630000 635000" Enter &&
+tmux new-session -d -s "127" && tmux send -t "127" "python ./dossing-wikipedia.py 635000 640000" Enter &&
+tmux new-session -d -s "128" && tmux send -t "128" "python ./dossing-wikipedia.py 640000 645000" Enter &&
+tmux new-session -d -s "129" && tmux send -t "129" "python ./dossing-wikipedia.py 645000 650000" Enter &&
+tmux new-session -d -s "130" && tmux send -t "130" "python ./dossing-wikipedia.py 650000 655000" Enter &&
+tmux new-session -d -s "131" && tmux send -t "131" "python ./dossing-wikipedia.py 655000 660000" Enter &&
+tmux new-session -d -s "132" && tmux send -t "132" "python ./dossing-wikipedia.py 660000 665000" Enter &&
+tmux new-session -d -s "133" && tmux send -t "133" "python ./dossing-wikipedia.py 665000 670000" Enter &&
+tmux new-session -d -s "134" && tmux send -t "134" "python ./dossing-wikipedia.py 670000 675000" Enter &&
+tmux new-session -d -s "135" && tmux send -t "135" "python ./dossing-wikipedia.py 675000 680000" Enter &&
+tmux new-session -d -s "136" && tmux send -t "136" "python ./dossing-wikipedia.py 680000 685000" Enter &&
+tmux new-session -d -s "137" && tmux send -t "137" "python ./dossing-wikipedia.py 685000 690000" Enter &&
+tmux new-session -d -s "138" && tmux send -t "138" "python ./dossing-wikipedia.py 690000 695000" Enter &&
+tmux new-session -d -s "139" && tmux send -t "139" "python ./dossing-wikipedia.py 695000 700000" Enter &&
+tmux new-session -d -s "140" && tmux send -t "140" "python ./dossing-wikipedia.py 700000 705000" Enter &&
+tmux new-session -d -s "141" && tmux send -t "141" "python ./dossing-wikipedia.py 705000 710000" Enter &&
+tmux new-session -d -s "142" && tmux send -t "142" "python ./dossing-wikipedia.py 710000 715000" Enter &&
+tmux new-session -d -s "143" && tmux send -t "143" "python ./dossing-wikipedia.py 715000 720000" Enter &&
+tmux new-session -d -s "144" && tmux send -t "144" "python ./dossing-wikipedia.py 720000 725000" Enter &&
+tmux new-session -d -s "145" && tmux send -t "145" "python ./dossing-wikipedia.py 725000 730000" Enter &&
+tmux new-session -d -s "146" && tmux send -t "146" "python ./dossing-wikipedia.py 730000 735000" Enter &&
+tmux new-session -d -s "147" && tmux send -t "147" "python ./dossing-wikipedia.py 735000 740000" Enter &&
+tmux new-session -d -s "148" && tmux send -t "148" "python ./dossing-wikipedia.py 740000 745000" Enter &&
+tmux new-session -d -s "149" && tmux send -t "149" "python ./dossing-wikipedia.py 745000 750000" Enter &&
+tmux new-session -d -s "150" && tmux send -t "150" "python ./dossing-wikipedia.py 750000 755000" Enter &&
+tmux new-session -d -s "151" && tmux send -t "151" "python ./dossing-wikipedia.py 755000 760000" Enter &&
+tmux new-session -d -s "152" && tmux send -t "152" "python ./dossing-wikipedia.py 760000 765000" Enter &&
+tmux new-session -d -s "153" && tmux send -t "153" "python ./dossing-wikipedia.py 765000 770000" Enter &&
+tmux new-session -d -s "154" && tmux send -t "154" "python ./dossing-wikipedia.py 770000 775000" Enter &&
+tmux new-session -d -s "155" && tmux send -t "155" "python ./dossing-wikipedia.py 775000 780000" Enter &&
+tmux new-session -d -s "156" && tmux send -t "156" "python ./dossing-wikipedia.py 780000 785000" Enter &&
+tmux new-session -d -s "157" && tmux send -t "157" "python ./dossing-wikipedia.py 785000 790000" Enter &&
+tmux new-session -d -s "158" && tmux send -t "158" "python ./dossing-wikipedia.py 790000 795000" Enter &&
+tmux new-session -d -s "159" && tmux send -t "159" "python ./dossing-wikipedia.py 795000 800000" Enter &&
+tmux new-session -d -s "160" && tmux send -t "160" "python ./dossing-wikipedia.py 800000 805000" Enter &&
+tmux new-session -d -s "161" && tmux send -t "161" "python ./dossing-wikipedia.py 805000 810000" Enter &&
+tmux new-session -d -s "162" && tmux send -t "162" "python ./dossing-wikipedia.py 810000 815000" Enter &&
+tmux new-session -d -s "163" && tmux send -t "163" "python ./dossing-wikipedia.py 815000 820000" Enter &&
+tmux new-session -d -s "164" && tmux send -t "164" "python ./dossing-wikipedia.py 820000 825000" Enter &&
+tmux new-session -d -s "165" && tmux send -t "165" "python ./dossing-wikipedia.py 825000 830000" Enter &&
+tmux new-session -d -s "166" && tmux send -t "166" "python ./dossing-wikipedia.py 830000 835000" Enter &&
+tmux new-session -d -s "167" && tmux send -t "167" "python ./dossing-wikipedia.py 835000 840000" Enter &&
+tmux new-session -d -s "168" && tmux send -t "168" "python ./dossing-wikipedia.py 840000 845000" Enter &&
+tmux new-session -d -s "169" && tmux send -t "169" "python ./dossing-wikipedia.py 845000 850000" Enter &&
+tmux new-session -d -s "170" && tmux send -t "170" "python ./dossing-wikipedia.py 850000 855000" Enter &&
+tmux new-session -d -s "171" && tmux send -t "171" "python ./dossing-wikipedia.py 855000 860000" Enter &&
+tmux new-session -d -s "172" && tmux send -t "172" "python ./dossing-wikipedia.py 860000 865000" Enter &&
+tmux new-session -d -s "173" && tmux send -t "173" "python ./dossing-wikipedia.py 865000 870000" Enter &&
+tmux new-session -d -s "174" && tmux send -t "174" "python ./dossing-wikipedia.py 870000 875000" Enter &&
+tmux new-session -d -s "175" && tmux send -t "175" "python ./dossing-wikipedia.py 875000 880000" Enter &&
+tmux new-session -d -s "176" && tmux send -t "176" "python ./dossing-wikipedia.py 880000 885000" Enter &&
+tmux new-session -d -s "177" && tmux send -t "177" "python ./dossing-wikipedia.py 885000 890000" Enter &&
+tmux new-session -d -s "178" && tmux send -t "178" "python ./dossing-wikipedia.py 890000 895000" Enter &&
+tmux new-session -d -s "179" && tmux send -t "179" "python ./dossing-wikipedia.py 895000 900000" Enter &&
+tmux new-session -d -s "180" && tmux send -t "180" "python ./dossing-wikipedia.py 900000 905000" Enter &&
+tmux new-session -d -s "181" && tmux send -t "181" "python ./dossing-wikipedia.py 905000 910000" Enter &&
+tmux new-session -d -s "182" && tmux send -t "182" "python ./dossing-wikipedia.py 910000 915000" Enter &&
+tmux new-session -d -s "183" && tmux send -t "183" "python ./dossing-wikipedia.py 915000 920000" Enter &&
+tmux new-session -d -s "184" && tmux send -t "184" "python ./dossing-wikipedia.py 920000 925000" Enter &&
+tmux new-session -d -s "185" && tmux send -t "185" "python ./dossing-wikipedia.py 925000 930000" Enter &&
+tmux new-session -d -s "186" && tmux send -t "186" "python ./dossing-wikipedia.py 930000 935000" Enter &&
+tmux new-session -d -s "187" && tmux send -t "187" "python ./dossing-wikipedia.py 935000 940000" Enter &&
+tmux new-session -d -s "188" && tmux send -t "188" "python ./dossing-wikipedia.py 940000 945000" Enter &&
+tmux new-session -d -s "189" && tmux send -t "189" "python ./dossing-wikipedia.py 945000 950000" Enter &&
+tmux new-session -d -s "190" && tmux send -t "190" "python ./dossing-wikipedia.py 950000 955000" Enter &&
+tmux new-session -d -s "191" && tmux send -t "191" "python ./dossing-wikipedia.py 955000 960000" Enter &&
+tmux new-session -d -s "192" && tmux send -t "192" "python ./dossing-wikipedia.py 960000 965000" Enter &&
+tmux new-session -d -s "193" && tmux send -t "193" "python ./dossing-wikipedia.py 965000 970000" Enter &&
+tmux new-session -d -s "194" && tmux send -t "194" "python ./dossing-wikipedia.py 970000 975000" Enter &&
+tmux new-session -d -s "195" && tmux send -t "195" "python ./dossing-wikipedia.py 975000 980000" Enter &&
+tmux new-session -d -s "196" && tmux send -t "196" "python ./dossing-wikipedia.py 980000 985000" Enter &&
+tmux new-session -d -s "197" && tmux send -t "197" "python ./dossing-wikipedia.py 985000 990000" Enter &&
+tmux new-session -d -s "198" && tmux send -t "198" "python ./dossing-wikipedia.py 990000 995000" Enter &&
+tmux new-session -d -s "199" && tmux send -t "199" "python ./dossing-wikipedia.py 995000 1000000" Enter &&
+tmux new-session -d -s "200" && tmux send -t "200" "python ./dossing-wikipedia.py 1000000 1005000" Enter &&
+tmux new-session -d -s "201" && tmux send -t "201" "python ./dossing-wikipedia.py 1005000 1010000" Enter &&
+tmux new-session -d -s "202" && tmux send -t "202" "python ./dossing-wikipedia.py 1010000 1015000" Enter &&
+tmux new-session -d -s "203" && tmux send -t "203" "python ./dossing-wikipedia.py 1015000 1020000" Enter &&
+tmux new-session -d -s "204" && tmux send -t "204" "python ./dossing-wikipedia.py 1020000 1025000" Enter &&
+tmux new-session -d -s "205" && tmux send -t "205" "python ./dossing-wikipedia.py 1025000 1030000" Enter &&
+tmux new-session -d -s "206" && tmux send -t "206" "python ./dossing-wikipedia.py 1030000 1035000" Enter &&
+tmux new-session -d -s "207" && tmux send -t "207" "python ./dossing-wikipedia.py 1035000 1040000" Enter &&
+tmux new-session -d -s "208" && tmux send -t "208" "python ./dossing-wikipedia.py 1040000 1045000" Enter &&
+tmux new-session -d -s "209" && tmux send -t "209" "python ./dossing-wikipedia.py 1045000 1050000" Enter &&
+tmux new-session -d -s "210" && tmux send -t "210" "python ./dossing-wikipedia.py 1050000 1055000" Enter &&
+tmux new-session -d -s "211" && tmux send -t "211" "python ./dossing-wikipedia.py 1055000 1060000" Enter &&
+tmux new-session -d -s "212" && tmux send -t "212" "python ./dossing-wikipedia.py 1060000 1065000" Enter &&
+tmux new-session -d -s "213" && tmux send -t "213" "python ./dossing-wikipedia.py 1065000 1070000" Enter &&
+tmux new-session -d -s "214" && tmux send -t "214" "python ./dossing-wikipedia.py 1070000 1075000" Enter &&
+tmux new-session -d -s "215" && tmux send -t "215" "python ./dossing-wikipedia.py 1075000 1080000" Enter &&
+tmux new-session -d -s "216" && tmux send -t "216" "python ./dossing-wikipedia.py 1080000 1085000" Enter &&
+tmux new-session -d -s "217" && tmux send -t "217" "python ./dossing-wikipedia.py 1085000 1090000" Enter &&
+tmux new-session -d -s "218" && tmux send -t "218" "python ./dossing-wikipedia.py 1090000 1095000" Enter &&
+tmux new-session -d -s "219" && tmux send -t "219" "python ./dossing-wikipedia.py 1095000 1100000" Enter &&
+tmux new-session -d -s "220" && tmux send -t "220" "python ./dossing-wikipedia.py 1100000 1105000" Enter &&
+tmux new-session -d -s "221" && tmux send -t "221" "python ./dossing-wikipedia.py 1105000 1110000" Enter &&
+tmux new-session -d -s "222" && tmux send -t "222" "python ./dossing-wikipedia.py 1110000 1115000" Enter &&
+tmux new-session -d -s "223" && tmux send -t "223" "python ./dossing-wikipedia.py 1115000 1120000" Enter &&
+tmux new-session -d -s "224" && tmux send -t "224" "python ./dossing-wikipedia.py 1120000 1125000" Enter &&
+tmux new-session -d -s "225" && tmux send -t "225" "python ./dossing-wikipedia.py 1125000 1130000" Enter &&
+tmux new-session -d -s "226" && tmux send -t "226" "python ./dossing-wikipedia.py 1130000 1135000" Enter &&
+tmux new-session -d -s "227" && tmux send -t "227" "python ./dossing-wikipedia.py 1135000 1140000" Enter &&
+tmux new-session -d -s "228" && tmux send -t "228" "python ./dossing-wikipedia.py 1140000 1145000" Enter &&
