@@ -1,11 +1,13 @@
 #  %%
+from ctypes import cast
+import enum
 from io import TextIOWrapper
-import requests
 import sys
+import requests
 from tqdm import tqdm
+from multiprocessing import Pool
 BASE_URL = 'https://en.wikipedia.org/w/api.php'
 session = requests.Session()
-
 
 # %% functions
 def getNamesAndIds(f: TextIOWrapper, n: int):
@@ -19,7 +21,7 @@ def getNamesAndIds(f: TextIOWrapper, n: int):
             ids.append(id)
     return names, ids
 
-def query(username, cont):
+def query(username, cont, fr):
     params = {
         'action': 'query',
         'format': 'json',
@@ -29,17 +31,29 @@ def query(username, cont):
         'ucstart': '2008-01-07T00:00:00Z',
         'uclimit': 500,	
     }
-    pbarReq.update(1)
+    # pbarReq.update(1)
     if cont:
         params['uccontinue'] = cont
-    return session.get(url=BASE_URL, params=params).json()
+    res = None
+    tried = 0
+    while res is None and tried < 15:
+        try:
+            res = session.get(BASE_URL, params=params).json()
+        except:
+            tried += 1
+            with open('error.log', 'a') as out:
+                out.write(f'Retry {username} from {fr}\n')
+    if res is None:
+        with open('diocane.log', 'a') as out:
+                out.write(f'{username} from {fr}\n')
+    return res
 
-def getContributions(username):
+def getContributions(username, fr):
     contrib = []
     cont = False
 
     while True:
-        res = query(username, cont)
+        res = query(username, cont, fr)
         if 'query' in res and 'usercontribs' in res['query']:
             contrib += res['query']['usercontribs']
 
@@ -58,47 +72,59 @@ def saveToFile(id, username, contrib, f: TextIOWrapper):
     f.write('\n')
 
 
+def run(params):
+    counter, (i, lines) = params
+    pbar = tqdm(total=len(lines), position=counter, desc=f'Processo {counter}')
+
+    with open(f'contrib/contrib-{str(i).zfill(7)}.txt', 'w') as out:
+        for id, username in lines:
+
+            cont = getContributions(username, i)
+            saveToFile(id, username, cont, out)
+            pbar.update(1)
+
+    with open(f'contrib/contrib-{str(i).zfill(7)}.done.txt', 'w') as out:
+        out.write(f'Done contrib/contrib-{str(i).zfill(7)}.txt\n')
+    with open('contrib/done.txt', 'a') as out:
+        out.write(f'{str(i).zfill(7)}\n')
 
 
+    pbar.close()
+    # pbarReq.close()
+    print('Done')
 
 
-#  %%
-fr = int(sys.argv[1])
-to = int(sys.argv[2])
-
-pbarReq = tqdm(position=0)
-pbar = tqdm(total=to-fr, position=1)
-
-n = 1
-
+# %% read files
+lines = []
 with open('dataset/usernames.txt') as f:
-    lines = [ l.strip().split(' ') for l in list(f)[fr:to] ]
+    lines = [ l.strip().split(' ') for l in list(f) ]
 
-with open(f'contrib/contrib-{str(fr).zfill(7)}-{str(to).zfill(7)}.txt', 'w') as out:
-    for id, username in lines:
+# %% group inputs
+pool = Pool(processes=50)
+n = 5000
+inputs = []
+for i in range(0, 1140150, n):
+    inputs.append((i, lines[i:i+n]))
 
-        cont = getContributions(username)
-        saveToFile(id, username, cont, out)
-        pbar.update(1)
+#  %%
+try:
+    fr = int(sys.argv[1])
+    to = int(sys.argv[2])
+except:
+    fr = 0
+    to = 1
 
-with open(f'contrib/contrib-{str(fr).zfill(7)}-{str(to).zfill(7)}.done.txt', 'w') as out:
-        out.write(f'Done contrib-{str(fr).zfill(7)}-{str(to).zfill(7)}.txt\n')
-with open('contrib/done.txt', 'a') as out:
-        out.write(f'{str(fr).zfill(7)}-{str(to).zfill(7)}\n')
-
-
-pbar.close()
-pbarReq.close()
-print('Done')
+print(f'Processing from {fr} to {to} of {len(inputs)}')
+pool.map(run, enumerate(inputs[fr:to]))
 
 
 #  %%
-n = 5000
-ii = 0
-with open('run.sh', 'w') as f:
-    for i in range(0, 1140148, n):
-        f.write(f'tmux new-session -d -s "{ii}" &&')
-        f.write(f'tmux send -t "{ii}" "python ./dossing-wikipedia.py {i} {i+n}" Enter &&\n')
-        ii += 1
+# n = 5000
+# ii = 0
+# with open('run.sh', 'w') as f:
+#     for i in range(0, 1140148, n):
+#         f.write(f'tmux new-session -d -s "{ii}" && ')
+#         f.write(f'tmux send -t "{ii}" "python ./dossing-wikipedia.py {i} {i+n}" Enter &&\n')
+#         ii += 1
 
 # %%
