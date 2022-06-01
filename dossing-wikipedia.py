@@ -112,7 +112,7 @@ with open('dataset/usernames.txt') as f:
     lines = [ l.strip().split(' ') for l in list(f) ]
 
 # %% group inputs
-n = 5000
+n = 500
 inputs = []
 for i in range(0, 1140150, n):
     inputs.append((i, lines[i:i+n]))
@@ -129,7 +129,7 @@ for i in range(0, 1140150, n):
 # pbarFiles = tqdm(position=1, total=to-fr, desc='Files')
 # %%
 pool = Pool(processes=100)
-for i in range(90, 200, 10):
+for i in range(0, 30, 10):
     fr = i
     to = i+10
     print(f'Processing {len(inputs[fr:to])} processes from {fr} to {to} of {len(inputs)}')
