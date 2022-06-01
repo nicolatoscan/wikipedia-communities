@@ -6,8 +6,13 @@ import sys
 import requests
 from tqdm import tqdm
 from multiprocessing import Pool
+from joblib import Parallel, delayed
+from blessings import Terminal
+import time
 BASE_URL = 'https://en.wikipedia.org/w/api.php'
 session = requests.Session()
+
+done = []
 
 # %% functions
 def getNamesAndIds(f: TextIOWrapper, n: int):
@@ -36,16 +41,15 @@ def query(username, cont, fr):
         params['uccontinue'] = cont
     res = None
     tried = 0
-    while res is None and tried < 15:
+    while res is None and tried < 5:
+        tried += 1
         try:
             res = session.get(BASE_URL, params=params).json()
         except:
-            tried += 1
-            with open('error.log', 'a') as out:
-                out.write(f'Retry {username} from {fr}\n')
+            pass
     if res is None:
         with open('diocane.log', 'a') as out:
-                out.write(f'{username} from {fr}\n')
+            out.write(f'{username} from {fr}\n')
     return res
 
 def getContributions(username, fr):
@@ -54,6 +58,9 @@ def getContributions(username, fr):
 
     while True:
         res = query(username, cont, fr)
+        if res is None:
+            break
+
         if 'query' in res and 'usercontribs' in res['query']:
             contrib += res['query']['usercontribs']
 
@@ -74,6 +81,8 @@ def saveToFile(id, username, contrib, f: TextIOWrapper):
 
 def run(params):
     counter, (i, lines) = params
+    if i in done:
+        return
     pbar = tqdm(total=len(lines), position=counter, desc=f'Processo {counter}')
 
     with open(f'contrib/contrib-{str(i).zfill(7)}.txt', 'w') as out:
@@ -82,6 +91,9 @@ def run(params):
             cont = getContributions(username, i)
             saveToFile(id, username, cont, out)
             pbar.update(1)
+            # pbarTotal.update(1)
+        # pbarFiles.update(1)
+
 
     with open(f'contrib/contrib-{str(i).zfill(7)}.done.txt', 'w') as out:
         out.write(f'Done contrib/contrib-{str(i).zfill(7)}.txt\n')
@@ -89,9 +101,9 @@ def run(params):
         out.write(f'{str(i).zfill(7)}\n')
 
 
-    pbar.close()
-    # pbarReq.close()
-    print('Done')
+    # pbar.close()
+    # pbarTotal.close()
+    # pbarFiles.close()
 
 
 # %% read files
@@ -100,23 +112,30 @@ with open('dataset/usernames.txt') as f:
     lines = [ l.strip().split(' ') for l in list(f) ]
 
 # %% group inputs
-pool = Pool(processes=50)
 n = 5000
 inputs = []
 for i in range(0, 1140150, n):
     inputs.append((i, lines[i:i+n]))
 
 #  %%
-try:
-    fr = int(sys.argv[1])
-    to = int(sys.argv[2])
-except:
-    fr = 0
-    to = 1
+# try:
+#     fr = int(sys.argv[1])
+#     to = int(sys.argv[2])
+# except:
+#     fr = 0
+#     to = 10
 
-print(f'Processing from {fr} to {to} of {len(inputs)}')
-pool.map(run, enumerate(inputs[fr:to]))
-
+# pbarTotal = tqdm(position=0, total=sum([ len(inp) for inp in inputs[fr:to] ]), desc='Total')
+# pbarFiles = tqdm(position=1, total=to-fr, desc='Files')
+# %%
+pool = Pool(processes=100)
+for i in range(90, 200, 10):
+    fr = i
+    to = i+10
+    print(f'Processing {len(inputs[fr:to])} processes from {fr} to {to} of {len(inputs)}')
+    pool.map(run, enumerate(inputs[fr:to]))
+#  %%
+# Parallel(n_jobs=100)(delayed(run)(i) for i in enumerate(inputs[fr:to]))
 
 #  %%
 # n = 5000
