@@ -16,6 +16,34 @@ from IPython.display import display
 import math
 cores = 12
 
+
+
+# %% ground throuth communities
+comms = {}
+usersInterests= {}
+with open('dataset/users-contributions.csv') as f:
+    for l in tqdm(f):
+        id, username, topCats, pages = l.split('\t')
+        id = int(id)
+        topCats = [ tc.split(',') for tc in topCats.split('|') if tc ]
+        topCats = [ ( int(tc[0]), int(tc[1]) ) for tc in topCats ]
+
+        if len(topCats) > 0:
+
+            mostUsedCat = topCats[0][0]
+            if mostUsedCat in comms:
+                comms[mostUsedCat].append(id)
+            else:
+                comms[mostUsedCat] = [ id ]
+            
+            tot = sum([tc[1] for tc in topCats])
+            usersInterests[id] = { tc[0]: tc[1] / tot for tc in topCats }
+
+gtCommunities = []
+for x in comms:
+    gtCommunities.append(comms[x])
+del comms
+
 # %% graph
 g = nx.Graph()
 # g = nx.DiGraph()
@@ -33,7 +61,8 @@ with open('dataset/usernames.txt', 'r') as f:
 userinfo = {}
 emptyUserinfo = {
     'id': -1, 'name': '', 'gender': -1, 'roles': ['*'],
-    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False
+    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False,
+    'intrests': {}
 }
 
 print("Getting API users information")
@@ -50,7 +79,8 @@ with open('dataset/userinfo.tsv', 'r') as f:
                     'name': name,
                     'gender': genderMap[gender],
                     'roles': roles.split(','),
-                    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False
+                    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False,
+                    'intrests': {}
                 }
 
 print("Getting calculated users information")
@@ -60,13 +90,24 @@ with open('dataset/users.json', 'r') as f:
         count, fr, to = users[id]
         iid = int(id)
         if iid not in userinfo:
-            userinfo[iid] = {'id': -1, 'name': id, 'gender': -1, 'roles': ['*'] }
+            userinfo[iid] = {'id': -1, 'name': id, 'gender': -1, 'roles': ['*'], 'intrests': {} }
         userinfo[iid]['count'] = count
         userinfo[iid]['from'] = fr
         userinfo[iid]['to'] = to
         userinfo[iid]['active'] = to > 1191838728
         userinfo[iid]['total'] = to - fr
         userinfo[iid]['freq'] = (to - fr) / count
+
+print("Adding users intrests")
+for iid in tqdm(usersInterests):
+    if iid in userinfo:
+        userinfo[iid]['intrests'] = usersInterests[iid]
+    else:
+        userinfo[iid] = {
+            'id': -1, 'name': '', 'gender': -1, 'roles': ['*'],
+            'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False,
+            'intrests': usersInterests[iid]
+        }
 
 bots = []
 with open('dataset/wikitalk.txt', 'r') as f:
@@ -334,9 +375,4 @@ histProperty(comms, 'freq')
 histProperty(comms, 'count')
 histProperty(comms, 'total')
 histProperty(comms, 'active')
-# %%
-emptyUserinfo = {
-    'id': -1, 'name': '', 'gender': -1, 'roles': ['*'],
-    'count': 0, 'from': -1, 'to': -1, 'total': 0, 'freq': 0, 'active': False
-}
 # %%

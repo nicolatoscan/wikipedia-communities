@@ -9,6 +9,7 @@ pandas = "*"
 networkx = {extras = ["default"], version = "*"}
 tqdm = "*"
 matplotlib = "*"
+requests = "*"
 
 [dev-packages]
 ipykernel = "*"

@@ -6,8 +6,6 @@ import sys
 import requests
 from tqdm import tqdm
 from multiprocessing import Pool
-from joblib import Parallel, delayed
-from blessings import Terminal
 import time
 BASE_URL = 'https://en.wikipedia.org/w/api.php'
 session = requests.Session()
@@ -83,6 +81,7 @@ def run(params):
     counter, (i, lines) = params
     if i in done:
         return
+    lines = [ l for l in lines if len(l) == 2]
     pbar = tqdm(total=len(lines), position=counter, desc=f'Processo {counter}')
 
     with open(f'contrib/contrib-{str(i).zfill(7)}.txt', 'w') as out:
@@ -112,7 +111,7 @@ with open('dataset/usernames.txt') as f:
     lines = [ l.strip().split(' ') for l in list(f) ]
 
 # %% group inputs
-n = 500
+n = 5000
 inputs = []
 for i in range(0, 1140150, n):
     inputs.append((i, lines[i:i+n]))
@@ -129,11 +128,11 @@ for i in range(0, 1140150, n):
 # pbarFiles = tqdm(position=1, total=to-fr, desc='Files')
 # %%
 pool = Pool(processes=100)
-for i in range(0, 30, 10):
-    fr = i
-    to = i+10
-    print(f'Processing {len(inputs[fr:to])} processes from {fr} to {to} of {len(inputs)}')
-    pool.map(run, enumerate(inputs[fr:to]))
+# for i in range(10, 30, 10):
+#     fr = i
+#     to = i+10
+#     print(f'Processing {len(inputs[fr:to])} processes from {fr} to {to} of {len(inputs)}')
+pool.map(run, enumerate(inputs[82:83]))
 #  %%
 # Parallel(n_jobs=100)(delayed(run)(i) for i in enumerate(inputs[fr:to]))
 
